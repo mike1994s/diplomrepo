@@ -17,7 +17,9 @@ app.set('view engine', 'ejs');
 app.use(express.static('Video'));
 app.use(express.static('uploads'));
 require('./routes')(app, http);
-http.listen(config.get('port'));
+http.listen(config.get('port'), function(err){
+	
+});
 
  
 
