@@ -1,7 +1,7 @@
 {
     "port": 3000,
     "mongoose": {
-        "uri": "mongodb://127.7.182.130:27017/admin",
+        "uri": "mongodb://127.7.182.130:27017/nodejsdiplom",
         "options": {
             "socketOptions": {
                 "keepAlive": 1
