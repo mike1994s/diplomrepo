@@ -17,9 +17,7 @@ app.set('view engine', 'ejs');
 app.use(express.static('Video'));
 app.use(express.static('uploads'));
 require('./routes')(app, http);
-http.listen(process.env.OPENSHIFT_NODEJS_PORT || config.get('port'), ipaddress, function(err){
-	
-});
+http.listen(process.env.OPENSHIFT_NODEJS_PORT || config.get('port'), ipaddress);
 
  
 
