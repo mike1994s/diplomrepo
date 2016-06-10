@@ -1,0 +1,11 @@
+{
+    "port": 8090,
+    "mongoose": {
+        "uri": "mongodb://127.0.0.1/app_game",
+        "options": {
+            "socketOptions": {
+                "keepAlive": 1
+            }
+        }
+    }
+}
