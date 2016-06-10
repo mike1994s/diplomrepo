@@ -5,8 +5,8 @@ module.exports = function(app) {
     })
     app.get('/ping', function(req ,res){
 	 res.json({
-               code : "0",
-               answer :"empty field",
+               code : "1",
+               answer :"Ok",
                data : [],
 	});
 
