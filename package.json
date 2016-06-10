@@ -9,24 +9,25 @@
   },
   "author": " ",
   "license": "ISC",
- "dependencies": {
+  "dependencies": {
+    "bluebird": "~3.4.0",
     "body-parser": "^1.15.1",
+    "connect-busboy": "0.0.2",
     "cookie-parser": "^1.4.3",
     "ejs": "^2.4.2",
     "express": "^4.13.4",
     "express-session": "^1.13.0",
     "fluent-ffmpeg": "^2.1.0",
-    "multer": "^1.1.0",
-    "socket.io": "^1.4.6",
-    "nconf": "~0.8.4",
-    "bluebird": "~3.4.0",
-    "q": "~1.4.1",
     "mocha": "~2.5.3",
-    "should": "~9.0.0",
-    "supertest": "~1.2.0",
-    "connect-busboy": "0.0.2",
-    "socket.io-client": "~1.4.6",
+    "mongoose": "^4.4.20",
+    "multer": "^1.1.0",
+    "nconf": "~0.8.4",
+    "newman": "^2.0.9",
     "node-gcm": "~0.14.2",
-     "mongoose": "^4.4.20"
+    "q": "~1.4.1",
+    "should": "~9.0.0",
+    "socket.io": "^1.4.6",
+    "socket.io-client": "~1.4.6",
+    "supertest": "~1.2.0"
   }
 }
