@@ -7,7 +7,7 @@ var config = require('./config');
 var busboy = require('connect-busboy');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
- 
+var ipaddress = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1"; 
 app.use(busboy()); 
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -17,7 +17,7 @@ app.set('view engine', 'ejs');
 app.use(express.static('Video'));
 app.use(express.static('uploads'));
 require('./routes')(app, http);
-http.listen(process.env.OPENSHIFT_NODEJS_PORT || config.get('port'), function(err){
+http.listen(process.env.OPENSHIFT_NODEJS_PORT || config.get('port'), ipaddress, function(err){
 	
 });
 
