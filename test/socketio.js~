@@ -1,22 +1,19 @@
 var should = require('should');
 var io = require('socket.io-client');
 var Game = require('../models/Game').Game;
+ 
+var upload = "uploads/file-1465581874888.png"
+var socketURL = 'http://nodejsdiplom-openshdiplom.rhcloud.com/';
+var constID = '575c56aa2977a3d28200afd2'
 
-var socketURL = 'http://localhost:8090';
-
-var options ={
-  transports: ['websocket'],
-  'force new connection': true
-};
-
-var chatUser1 = {'vk_id':'vk_id_first','id_room' : '5757dd3e5fd0a2ae6f881828', 'is_lead' : true };
-var chatUser2 = {'vk_id':'vk_id_second', 'id_room' : '5757dd3e5fd0a2ae6f881828', 'is_lead' : false};
+var chatUser1 = {'vk_id':'vk_id_first','id_room' : constID, 'is_lead' : true };
+var chatUser2 = {'vk_id':'vk_id_second', 'id_room' : constID, 'is_lead' : false};
 var chatUser3 = {'vk_id':'vk_id_third',   'id_room' : 'sec', 'is_lead' : true};
-var chatUser4 = {'vk_id':'vk_id_fourth',   'id_room' : '5757dd3e5fd0a2ae6f881828', 'is_lead' : false};
+var chatUser4 = {'vk_id':'vk_id_fourth',   'id_room' : constID, 'is_lead' : false};
 describe("Chat Server",function(){
 
 	it('BroadCast to Users', function(done){
-	Game.findById('5757dd3e5fd0a2ae6f881828', function(err, model){
+	Game.findById(constID, function(err, model){
 		if (err){
 			err.should.equal("");
 		}
@@ -72,7 +69,7 @@ describe("Chat Server",function(){
      });
 
      it('StartGame', function(done){
-	Game.findById('5757dd3e5fd0a2ae6f881828', function(err, model){
+	Game.findById(constID, function(err, model){
 		if (err){
 			err.should.equal("");
 		}
@@ -91,7 +88,7 @@ describe("Chat Server",function(){
 	    });
               
             client2.on('on_start_game', function(data){
-	      	data.file.should.equal("uploads/file-1465376062453.png");
+	      	data.file.should.equal(upload);
 		data.message.should.equal("start game");
 		client1.disconnect();		      
 		client2.disconnect();
@@ -113,7 +110,7 @@ describe("Chat Server",function(){
      })
 
      it('Game Right Word', function(done){
-	Game.findById('5757dd3e5fd0a2ae6f881828', function(err, model){
+	Game.findById(constID, function(err, model){
 		if (err){
 			err.should.equal("");
 		}
@@ -132,7 +129,7 @@ describe("Chat Server",function(){
 	    });
               
             client2.on('on_start_game', function(data){
-	      	data.file.should.equal("uploads/file-1465376062453.png");
+	      	data.file.should.equal(upload);
 		data.message.should.equal("start game");
 	 	client2.emit('word', 'MochaTestWord');
 	    });
@@ -166,7 +163,7 @@ describe("Chat Server",function(){
      })
 
 it('Game Not Right Word', function(done){
-	Game.findById('5757dd3e5fd0a2ae6f881828', function(err, model){
+	Game.findById(constID, function(err, model){
 		if (err){
 			err.should.equal("");
 		}
@@ -185,7 +182,7 @@ it('Game Not Right Word', function(done){
 	    });
               
             client2.on('on_start_game', function(data){
-	      	data.file.should.equal("uploads/file-1465376062453.png");
+	      	data.file.should.equal(upload);
 		data.message.should.equal("start game");
 	 	client2.emit('word', 'MochaTestWordTest');
 	    });
@@ -202,7 +199,7 @@ it('Game Not Right Word', function(done){
 	    });
               
             client4.on('on_start_game', function(data){
-	      	data.file.should.equal("uploads/file-1465376062453.png");
+	      	data.file.should.equal(upload);
 		data.message.should.equal("start game"); 
 	    });
 
@@ -238,7 +235,7 @@ it('Game Not Right Word', function(done){
 
 
     it('Game Better Word', function(done){
-	Game.findById('5757dd3e5fd0a2ae6f881828', function(err, model){
+	Game.findById(constID, function(err, model){
 		if (err){
 			err.should.equal("");
 		}
@@ -257,7 +254,7 @@ it('Game Not Right Word', function(done){
 	    });
               
             client2.on('on_start_game', function(data){
-	      	data.file.should.equal("uploads/file-1465376062453.png");
+	      	data.file.should.equal(upload);
 		data.message.should.equal("start game");
 	 	client2.emit('word', 'MochaTestWordTestBetter');
 	    });
@@ -275,7 +272,7 @@ it('Game Not Right Word', function(done){
 	    });
               
             client4.on('on_start_game', function(data){
-	      	data.file.should.equal("uploads/file-1465376062453.png");
+	      	data.file.should.equal(upload);
 		data.message.should.equal("start game"); 
 	    });
 
@@ -320,7 +317,7 @@ it('Game Not Right Word', function(done){
 
 
 it('Game Worse Attempt Word', function(done){
-	Game.findById('5757dd3e5fd0a2ae6f881828', function(err, model){
+	Game.findById(constID, function(err, model){
 	if (err){
 		err.should.equal("");
 	}
@@ -339,7 +336,7 @@ it('Game Worse Attempt Word', function(done){
 	    });
               
             client2.on('on_start_game', function(data){
-	      	data.file.should.equal("uploads/file-1465376062453.png");
+	      	data.file.should.equal(upload);
 		data.message.should.equal("start game");
 	 	client2.emit('word', worseWord);
 	    });
@@ -357,7 +354,7 @@ it('Game Worse Attempt Word', function(done){
 	    });
               
             client4.on('on_start_game', function(data){
-	      	data.file.should.equal("uploads/file-1465376062453.png");
+	      	data.file.should.equal(upload);
 		data.message.should.equal("start game"); 
 	    });
 
@@ -401,7 +398,7 @@ it('Game Worse Attempt Word', function(done){
 
 
    it('Game Win Attempt Word', function(done){
-	Game.findById('5757dd3e5fd0a2ae6f881828', function(err, model){
+	Game.findById(constID, function(err, model){
 	if (err){
 		err.should.equal("");
 	}
@@ -420,7 +417,7 @@ it('Game Worse Attempt Word', function(done){
 	    });
               
             client2.on('on_start_game', function(data){
-	      	data.file.should.equal("uploads/file-1465376062453.png");
+	      	data.file.should.equal(upload);
 		data.message.should.equal("start game");
 	 	client2.emit('word', winWord);
 	    });
@@ -438,7 +435,7 @@ it('Game Worse Attempt Word', function(done){
 	    });
               
             client4.on('on_start_game', function(data){
-	      	data.file.should.equal("uploads/file-1465376062453.png");
+	      	data.file.should.equal(upload);
 		data.message.should.equal("start game"); 
 	    });
 
@@ -450,7 +447,7 @@ it('Game Worse Attempt Word', function(done){
 		
 		client4.on('win', function(data){
 	       		data.word.should.equal(winWord);
-			data.vk.should.equal(winWord);
+			data.vk.should.equal('vk_id_second');
 	    		client4.disconnect();	
 			done();
 	    });

@@ -103,7 +103,12 @@ module.exports = function(http){
 	      socket.on('winner', function(data){
 			console.log(data.word);
 			io.to(socket.room).emit('win',data);
-	      });	
+	      });
+	      socket.on('test', function(data){
+			console.log(data.word);
+			io.sockets.emit('test',data);
+	      });
+			
 	});
 	
 	return io;

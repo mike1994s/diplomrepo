@@ -2,9 +2,9 @@ var should = require('should');
 var io = require('socket.io-client');
 var Game = require('../models/Game').Game;
  
-var upload = "uploads/file-1465581874888.png"
+var upload = "file-1465669290283.png"
 var socketURL = 'http://nodejsdiplom-openshdiplom.rhcloud.com/';
-var constID = '575b0132f17be964d2fe2f59'
+var constID = '575c56aa2977a3d28200afd2'
 
 var chatUser1 = {'vk_id':'vk_id_first','id_room' : constID, 'is_lead' : true };
 var chatUser2 = {'vk_id':'vk_id_second', 'id_room' : constID, 'is_lead' : false};
