@@ -77,7 +77,7 @@ exports.post = function(req, res) {
 		fileObj.filename = fileData.filename;
 		var fileName = fileData.path;
 		fileName = fileName.substring(fileName.lastIndexOf('/')+1,fileName.length);
-		fileObj.path = file;
+		fileObj.path = fileName;
 		fileObj.size = fileData.size;
 		game.file = fileObj;
 		game.save(function (errSave, game, numAffected) {
