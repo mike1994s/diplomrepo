@@ -75,7 +75,9 @@ exports.post = function(req, res) {
 		fileObj.encoding = fileData.encoding;
 		fileObj.mimetype = fileData.mimetype;
 		fileObj.filename = fileData.filename;
-		fileObj.path = fileData.path;
+		var fileName = fileData.path;
+		fileName = file.substring(file.lastIndexOf('/')+1,file.length);
+		fileObj.path = file;
 		fileObj.size = fileData.size;
 		game.file = fileObj;
 		game.save(function (errSave, game, numAffected) {
