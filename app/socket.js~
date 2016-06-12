@@ -4,7 +4,7 @@ var exec = require('child_process').exec;
 var util = require('util');
 var Files = {};
 var GameModel = require('../models/Game').Game;
-var User = require('../models/Game').User;
+var User = require('../models/User').User;
 var gcm = require('node-gcm');
 
 
