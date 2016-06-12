@@ -22,13 +22,16 @@ var storage =   multer.diskStorage({
 })
 function getFcmMyFriendsIds(user){
 	var arrFriends = user.vk.friends;
+	console.log(arrFriends);
 	User.find({}, function(err, users){
 		if (err){
 			console.log(err);
 			return [];
 		}
+		console.dir(users);
 		var regTokens = [];
 		users.forEach(function(user) {
+			console.dir(user);
       			if (arrFriends.indexOf(user.vk.id) != -1){
 				regTokens.push(user.fsm);
 			}
@@ -121,7 +124,29 @@ exports.post = function(req, res) {
 				return;
 			}
 			console.log(game); // form files
-			var regTokens = getFcmMyFriendsIds(user);
+	
+
+				var arrFriends = user.vk.friends;
+	console.log(arrFriends);
+		User.find({}, function(err, users){
+			if (err){
+				console.log(err);
+				res.json({
+					code :"0",
+					answer : err,
+					data : [],
+				});
+				return;	
+			}
+			console.dir(users);
+			var regTokens = [];
+			users.forEach(function(user) {
+				console.dir(user);
+				if (arrFriends.indexOf(user.vk.id) != -1){
+					regTokens.push(user.fsm);
+				}
+			});
+			 console.log("regTokens" + regTokens);
 
 			sendNotification(regTokens, user, game._id);
 			res.json({
@@ -133,6 +158,13 @@ exports.post = function(req, res) {
 					tokensFriends :regTokens 
 				}],
 			});
+			return;
+	
+		});
+
+			
+
+			
 
 })
 .catch(function(err){
