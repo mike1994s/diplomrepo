@@ -12,11 +12,11 @@ var ffmpeg = require('fluent-ffmpeg');
 var numUsers = 0;
 var dataGame =  require('./DataGame').DataGame;
 
-function sendNotification(tokens, user, gameId){
+function sendNotification(tokens, vkID, gameId){
 	var message = new gcm.Message();
 
 	
-	message.addData('leading', user.vk.id);
+	message.addData('leading',vkID);
 	message.addData('id_game', gameId);
  
 
@@ -34,14 +34,14 @@ function sendNotification(tokens, user, gameId){
    		 }
 	});
 }
-function sendNotify(vkId){
+function sendNotify(vkId, user, gameId){
 	User.findOne({'vk.id':vkId}, function(err, user){
 		if (err){
 			return err;		
 		}
 		var arr = [];
 		arr.push(user.fsm);
-		sendNotification(arr);
+		sendNotification(arr, user, gameId);
 		return "ok";
 	});
 }
@@ -107,7 +107,7 @@ module.exports = function(http){
 								vks : allVks});
 		 })
 		socket.on('invite_new_user', function(userVk){
-			socket.emit(sendNotify(userVK));	
+			socket.emit(sendNotify(userVK, socket.vk, socket.room));	
 		});
 		socket.on('start_game', function(data){
 			var game = getGameById(socket.room);
