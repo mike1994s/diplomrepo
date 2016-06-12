@@ -108,4 +108,18 @@ describe("SAMPLE unit test",function(){
     });
    });
  });
+  it("UPDATE FCM",function(done){
+   
+    server
+    .post('/updatefcm')
+   .field('idphone', 'mochaIdPhone')
+   .field('fsm', 'NEW_FSM')
+    .end(function(err,res){
+ //	console.dir(res.body.data[0].user.vk);
+        res.body.code.should.equal('1');
+        res.body.data[0].user.fsm.should.equal('NEW_FSM');
+	res.status.should.equal(200);
+      done();
+    });
+   });
 require("./socketio"); 

@@ -13,5 +13,6 @@ module.exports = function(app) {
     });
     app.post('/enter', require('./enter').post);
     app.post('/startgame', require('./startgame').post);
+    app.post('/updatefcm', require('./updatefcm').post);
 
 }
