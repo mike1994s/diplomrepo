@@ -108,7 +108,8 @@ module.exports = function(http){
 		 })
 		socket.on('invite_new_user', function(userVk){
 			console.log(userVk);
-			socket.emit('invite_new_user', sendNotify(userVk, socket.vk, socket.room));	
+			 sendNotify(userVk, socket.vk, socket.room);
+			socket.emit('invite_new_user',"Ok");	
 		});
 		socket.on('start_game', function(data){
 			var game = getGameById(socket.room);
