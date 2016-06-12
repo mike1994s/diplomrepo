@@ -39,7 +39,9 @@ function sendNotify(vkId){
 		if (err){
 			return err;		
 		}
-		sendNotification(user.fsm);
+		var arr = [];
+		arr.push(user.fsm);
+		sendNotification(arr);
 		return "ok";
 	});
 }
