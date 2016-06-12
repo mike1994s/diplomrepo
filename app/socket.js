@@ -12,13 +12,13 @@ var ffmpeg = require('fluent-ffmpeg');
 var numUsers = 0;
 var dataGame =  require('./DataGame').DataGame;
 
-function sendNotification(tokens, vkID, gameId){
+function sendNotification(tokens, vkID, gameId, file){
 	var message = new gcm.Message();
 
 	
 	message.addData('leading',vkID);
 	message.addData('id_game', gameId);
- 
+ 	message.addData('file', file);
 
 	//https://github.com/ToothlessGear/node-gcm/blob/master/examples/notification.js
 	//Add your mobile device registration tokens here
@@ -41,7 +41,8 @@ function sendNotify(vkId, user, gameId){
 		}
 		var arr = [];
 		arr.push(user.fsm);
-		sendNotification(arr, user, gameId);
+		var game = getGameById(gameId);
+		sendNotification(arr, user, gameId, game.gameModel.file.path);
 		return "ok";
 	});
 }
