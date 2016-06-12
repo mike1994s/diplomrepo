@@ -1,0 +1,25 @@
+var gcm = require('node-gcm');
+  function sendNotification(tokens, user, gameId){
+	var message = new gcm.Message();
+
+	
+	message.addData('leading', user.vk.id);
+	message.addData('id_game', gameId);
+ 
+
+	//https://github.com/ToothlessGear/node-gcm/blob/master/examples/notification.js
+	//Add your mobile device registration tokens here
+	var regTokens =tokens;
+	//Replace your developer API key with GCM enabled here
+	var sender = new gcm.Sender('AIzaSyDqbKDS6ATiItrcjIYJdsvbChpGnp_DrIc');
+
+	sender.send(message, regTokens, function (err, response) {
+   		if(err) {
+      			console.error(err);
+   		 } else {
+      			console.log(response);
+   		 }
+	});
+}
+
+

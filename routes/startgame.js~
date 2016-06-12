@@ -5,7 +5,7 @@ var fs = require('fs');
 var _VK_TYPE = "vk";
 var _FB_TYPE = "fb"; 
 var multer  = require('multer');
-var gcm = require('node-gcm');
+
 var upload = multer().single('file')
 var storage =   multer.diskStorage({
 	
@@ -47,10 +47,7 @@ function sendNotification(tokens, user, gameId){
 	
 	message.addData('leading', user.vk.id);
 	message.addData('id_game', gameId);
-	message.addData('text', 'test');
-	message.addNotification('title', 'Hello');
-	message.addNotification('icon', 'ic_launcher');
-	message.addNotification('body', 'World');
+ 
 
 	//https://github.com/ToothlessGear/node-gcm/blob/master/examples/notification.js
 	//Add your mobile device registration tokens here
@@ -140,22 +137,22 @@ exports.post = function(req, res) {
 			}
 			console.dir(users);
 			var regTokens = [];
-			users.forEach(function(user) {
+			/*users.forEach(function(user) {
 				console.dir(user);
 				if (arrFriends.indexOf(user.vk.id) != -1){
 					regTokens.push(user.fsm);
 				}
-			});
+			});*/
 			 console.log("regTokens" + regTokens);
 
-			sendNotification(regTokens, user, game._id);
+			//sendNotification(regTokens, user, game._id);
 			res.json({
 				code :"1",
 				answer : "ok",
 				data : [{
 					game_one : game,
-					user : user,
-					tokensFriends :regTokens 
+					user : user
+				//	tokensFriends :regTokens 
 				}],
 			});
 			return;
