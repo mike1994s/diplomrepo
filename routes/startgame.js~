@@ -5,7 +5,7 @@ var fs = require('fs');
 var _VK_TYPE = "vk";
 var _FB_TYPE = "fb"; 
 var multer  = require('multer');
-
+var gcm = require('node-gcm');
 var upload = multer().single('file')
 var storage =   multer.diskStorage({
 	
