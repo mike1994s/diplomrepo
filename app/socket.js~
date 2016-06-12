@@ -107,7 +107,8 @@ module.exports = function(http){
 								vks : allVks});
 		 })
 		socket.on('invite_new_user', function(userVk){
-			socket.emit(sendNotify(userVK, socket.vk, socket.room));	
+			console.log(userVk);
+			socket.emit('invite_new_use', sendNotify(userVK, socket.vk, socket.room));	
 		});
 		socket.on('start_game', function(data){
 			var game = getGameById(socket.room);
