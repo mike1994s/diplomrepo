@@ -39,6 +39,9 @@ function sendNotify(vkId, user, gameId){
 		if (err){
 			return err;		
 		}
+		if (user.fsm == null){
+			return ;		
+		}
 		var arr = [];
 		arr.push(user.fsm);
 		var game = getGameById(gameId);

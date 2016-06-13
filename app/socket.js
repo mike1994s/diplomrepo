@@ -39,7 +39,8 @@ function sendNotify(vkId, user, gameId){
 		if (err){
 			return err;		
 		}
-		if (user.fsm == null){
+		
+		if (user == null || user.fsm == null){
 			return ;		
 		}
 		var arr = [];
