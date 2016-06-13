@@ -31,7 +31,7 @@ describe("Chat Server",function(){
 	      client3.emit('handshake', chatUser3);
 	    });
 
-	    client3.on('new user', function(data){
+	    client3.on('new_user', function(data){
 	
 	      data.id.should.equal(chatUser3.vk_id);
 	     data.vks.length.should.equal(0);
@@ -44,7 +44,7 @@ describe("Chat Server",function(){
 	      client2.emit('handshake', chatUser2);
 	    });
 
-	    client2.on('new user', function(usersName){
+	    client2.on('new_user', function(usersName){
             
 	      data.id.should.equal(chatUser2.vk_id);
 	    	 data.vks.length.should.equal(1);
@@ -54,7 +54,7 @@ describe("Chat Server",function(){
 	  });
 
 	  var numUsers = 0;
-	  client1.on('new user', function(data){
+	  client1.on('new_user', function(data){
 	    numUsers += 1;
 	     
 	   console.log(data.id);
@@ -67,6 +67,57 @@ describe("Chat Server",function(){
 	  });
 	});
      });
+
+/**/
+it('Chat Game', function(done){
+	Game.findById(constID, function(err, model){
+		if (err){
+			err.should.equal("");
+		}
+	   chatUser1.game = JSON.stringify(model);
+	  
+	   var client1 = io.connect(socketURL);
+
+
+	  client1.on('connect', function(data){
+	    client1.emit('handshake', chatUser1);
+	  
+	    client1.on('word', function(word){
+		word.should.equal('MochaTestWord');
+	    });
+	 
+	    var client2 = io.connect(socketURL);
+
+	    client2.on('connect', function(data){
+	      client2.emit('handshake', chatUser2);
+	      client2.emit('word', 'MochaTestWord');
+	    });
+
+	    client2.on('new_user', function(usersName){
+            
+	      data.id.should.equal(chatUser2.vk_id);
+	    	 data.vks.length.should.equal(1);
+	      client2.disconnect();
+	    });
+
+	  });
+
+	  var numUsers = 0;
+	  client1.on('new_user', function(data){
+	    numUsers += 1;
+	     
+	   console.log(data.id);
+	    if(numUsers === 2){ // проверка на то что отправляем только в указанную комнату
+	      console.log(chatUser2.vk_id);
+	      data.id.should.equal(chatUser2.vk_id);
+	      client1.disconnect();
+	      done();
+	    }
+	  });
+	});
+     });
+
+
 
      it('StartGame', function(done){
 	Game.findById(constID, function(err, model){
@@ -98,7 +149,7 @@ describe("Chat Server",function(){
 	  });
 
 	  var numUsers = 0;
-	  client1.on('new user', function(usersName){
+	  client1.on('new_user', function(usersName){
 	    numUsers += 1;
 	    
 
@@ -142,7 +193,7 @@ describe("Chat Server",function(){
 	  });
 
 	  var numUsers = 0;
-	  client1.on('new user', function(usersName){
+	  client1.on('new_user', function(usersName){
 	    numUsers += 1;
 	   
 	    if(numUsers === 2){ // проверка на то что отправляем только в указанную комнату
@@ -214,7 +265,7 @@ it('Game Not Right Word', function(done){
  
 
 	  var numUsers = 0;
-	  client1.on('new user', function(usersName){
+	  client1.on('new_user', function(usersName){
 	    numUsers += 1;
 	     
 
@@ -293,7 +344,7 @@ it('Game Not Right Word', function(done){
  
 
 	  var numUsers = 0;
-	  client1.on('new user', function(usersName){
+	  client1.on('new_user', function(usersName){
 	    numUsers += 1;
 	 
 	    if(numUsers === 3){ // проверка на то что отправляем только в указанную комнату
@@ -375,7 +426,7 @@ it('Game Worse Attempt Word', function(done){
  
 
 	  var numUsers = 0;
-	  client1.on('new user', function(usersName){
+	  client1.on('new_user', function(usersName){
 	    numUsers += 1;
 	      
 
@@ -457,7 +508,7 @@ it('Game Worse Attempt Word', function(done){
  
 
 	  var numUsers = 0;
-	  client1.on('new user', function(usersName){
+	  client1.on('new_user', function(usersName){
 	    numUsers += 1;
 	  
 	    if(numUsers === 3){ // проверка на то что отправляем только в указанную комнату

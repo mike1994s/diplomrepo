@@ -60,6 +60,13 @@ function sendNotify(vkId, user, gameId){
 		this.gameModel;	
 		this.masterSocket = null;
 		this.sockets = [];
+		this.isStartGame = false;
+	}
+	Game.prototype.isStartGame = function(){
+		return this.isStartGame;	
+	}
+	Game.prototype.startGame = function(){
+		this.isStartGame = true;
 	}
 	Game.prototype.add = function(socket, isLead, gameModel){
 		if (isLead == true){
@@ -126,7 +133,7 @@ module.exports = function(http){
 			}
 			socket.emit('handshake', {file : fileGame,
 					     is_lead : user.is_lead});
-			io.to(socket.room).emit('new user', { message :user.vk_id + " ",
+			io.to(socket.room).emit('new_user', { message :user.vk_id + " ",
 								id : user.vk_id,
 								vks : allVks });
 		 })
@@ -138,6 +145,7 @@ module.exports = function(http){
 		socket.on('start_game', function(data){
 			var game = getGameById(socket.room);
 			var data = {};
+			game.startGame();
 			data.file = game.gameModel.file.path;
 			data.message = "start game";
 			io.to(socket.room).emit('on_start_game',data);
@@ -145,6 +153,10 @@ module.exports = function(http){
 
 		socket.on('word', function(word){
 			var game = getGameById(socket.room);
+			if (!game.isStartGame(){
+				io.to(socket.room).emit('word', answer);
+				return;
+			}
 			var wordLowerCase = game.gameModel.word.toLowerCase(); 
 			
 			var prevWordLowerCase =word.toLowerCase();
