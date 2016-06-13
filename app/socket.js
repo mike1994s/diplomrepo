@@ -172,7 +172,8 @@ module.exports = function(http){
 			
 			var prevWordLowerCase =word.toLowerCase();
 			
-			if (wordLowerCase == prevWordLowerCase){
+			if (wordLowerCase == prevWordLowerCase && game.masterSocket != socket){
+
 				io.to(socket.room).emit('win', answer);
 			}else {
 				io.to(socket.room).emit('word', answer);
