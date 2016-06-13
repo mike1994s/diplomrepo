@@ -116,7 +116,7 @@ module.exports = function(http){
 
 				fileGame = game.gameModel.file.path;
 			}
-			socket.emit('handshake', {file : fileGame});
+			socket.emit('file', {file : fileGame});
 			io.to(socket.room).emit('new user', { message :user.vk_id + " ",
 								id : user.vk_id,
 								vks : allVks });
