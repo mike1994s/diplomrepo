@@ -43,15 +43,15 @@ function sendNotify(vkId, user, gameId){
 		if (user == null || user.fsm == null){
 			return ;		
 		}
+		console.log("user FSM " + user.fsm);
 		var arr = [];
 		arr.push(user.fsm);
 		var game = getGameById(gameId);
-		console.log(game);
+		 
 		var file = "";
 		if (game.gameModel && game.gameModel.file && game.gameModel.file.path){
-
 			file = game.gameModel.file.path;
-	}
+		}
 		sendNotification(arr, user, gameId, file );
 		return "ok";
 	});
@@ -113,12 +113,12 @@ module.exports = function(http){
 	io.sockets.on('connection', function (socket) {
 		console.log("connection");
 		 socket.on('handshake',function(user){
-   			
+   			console.log("handshake event");
 			socket.room = user.id_room;
 			socket.vk = user.vk_id;
 			socket.join(user.id_room);
-			console.log(socket.room + "   " + user.vk_id);
-			console.log(user.game);
+		//	console.log(socket.room + "   " + user.vk_id);
+		//	console.log(user.game);
 			var allVks = getArrUserByRoomVkId(socket.room);
 			var objGame;
 			 if (user.game){
@@ -140,11 +140,12 @@ module.exports = function(http){
 								vks : allVks });
 		 })
 		socket.on('invite_new_user', function(userVk){
-			console.log(userVk);
+			console.log("invite_new_user");
 			 sendNotify(userVk, socket.vk, socket.room);
 			socket.emit('invite_new_user',"Ok");	
 		});
 		socket.on('start_game', function(data){
+			console.log("start_game");
 			var game = getGameById(socket.room);
 			var data = {};
 			game.startGame();
@@ -154,6 +155,7 @@ module.exports = function(http){
 		});
 
 		socket.on('word', function(word){
+			console.log("word");
 			var game = getGameById(socket.room);
 			if (!game.wasStartGame()){
 				io.to(socket.room).emit('word', answer);
@@ -171,20 +173,24 @@ module.exports = function(http){
 			if (game.masterSocket != null){
 				game.masterSocket.emit('estimate', answer);
 			}	
-		})
+		})	
 	      socket.on('better', function(word){
+			console.log("better");
 			console.log(word);
 			io.to(socket.room).emit('better_word', word);
 	      });	
 	      socket.on('worse', function(word){
+			console.log("worse");
 			console.log(word);
 			io.to(socket.room).emit('worse_word', word);
 	      });	
 	      socket.on('winner', function(data){
+			console.log("winner");
 			console.log(data.word);
 			io.to(socket.room).emit('win',data);
 	      });
 	      socket.on('test', function(data){
+			console.log("test");
 			//console.log(data.word);
 			io.sockets.emit('test',data);
 	      });
