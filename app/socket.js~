@@ -62,7 +62,7 @@ function sendNotify(vkId, user, gameId){
 		this.sockets = [];
 		this.isStartGame = false;
 	}
-	Game.prototype.isStartGame = function(){
+	Game.prototype.wasStartGame = function(){
 		return this.isStartGame;	
 	}
 	Game.prototype.startGame = function(){
@@ -153,7 +153,7 @@ module.exports = function(http){
 
 		socket.on('word', function(word){
 			var game = getGameById(socket.room);
-			if (!game.isStartGame(){
+			if (!game.wasStartGame()){
 				io.to(socket.room).emit('word', answer);
 				return;
 			}
