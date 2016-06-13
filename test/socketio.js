@@ -32,7 +32,7 @@ describe("Chat Server",function(){
 	    });
 
 	    client3.on('new user', function(data){
-	      data.message.should.equal(chatUser3.vk_id + " ");
+	 
 	      data.id.should.equal(chatUser3.vk_id);
 	     data.vks.length.should.equal(0);
 	      client3.disconnect();
@@ -45,7 +45,7 @@ describe("Chat Server",function(){
 	    });
 
 	    client2.on('new user', function(usersName){
-              data.message.should.equal(chatUser2.vk_id + " ");
+            
 	      data.id.should.equal(chatUser2.vk_id);
 	    	 data.vks.length.should.equal(1);
 	      client2.disconnect();
@@ -59,7 +59,7 @@ describe("Chat Server",function(){
 	     
 
 	    if(numUsers === 2){ // проверка на то что отправляем только в указанную комнату
-	      data.message.should.equal(chatUser2.vk_id + " ");
+	 
 	      data.id.should.equal(chatUser2.vk_id);
 	      client1.disconnect();
 	      done();
