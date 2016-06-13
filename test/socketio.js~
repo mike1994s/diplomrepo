@@ -57,7 +57,7 @@ describe("Chat Server",function(){
 	  client1.on('new user', function(data){
 	    numUsers += 1;
 	     
-
+	   console.log(data.id);
 	    if(numUsers === 2){ // проверка на то что отправляем только в указанную комнату
 	      console.log(chatUser2.vk_id);
 	      data.id.should.equal(chatUser2.vk_id);

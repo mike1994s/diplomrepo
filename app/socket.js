@@ -102,21 +102,30 @@ module.exports = function(http){
 	io.sockets.on('connection', function (socket) {
 		console.log("connection");
 		 socket.on('handshake',function(user){
-   			socket.join(user.id_room);
+   			
 			socket.room = user.id_room;
 			socket.vk = user.vk_id;
+			socket.join(user.id_room);
 			console.log(socket.room + "   " + user.vk_id);
 			console.log(user.game);
 			var allVks = getArrUserByRoomVkId(socket.room);
-			
-			addInCurrentOrCreateRoom(socket.room, socket, user.is_lead, JSON.parse(user.game));
+			var objGame;
+			 if (user.game){
+                                objGame = JSON.parse(user.game);
+                        }else {
+                                objGame = {};
+
+                        }
+
+			addInCurrentOrCreateRoom(socket.room, socket, user.is_lead, objGame);
 			var game = getGameById(socket.room);
 			var fileGame = "";
 			if (game.gameModel && game.gameModel.file && game.gameModel.file.path){
 
 				fileGame = game.gameModel.file.path;
 			}
-			socket.emit('file', {file : fileGame});
+			socket.emit('handshake', {file : fileGame,
+					     is_lead : user.is_lead});
 			io.to(socket.room).emit('new user', { message :user.vk_id + " ",
 								id : user.vk_id,
 								vks : allVks });

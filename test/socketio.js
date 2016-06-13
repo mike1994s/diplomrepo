@@ -167,7 +167,7 @@ it('Game Not Right Word', function(done){
 		if (err){
 			err.should.equal("");
 		}
-	   chatUser1.game = model;
+	   chatUser1.game = JSON.stringify(model);;
 	   
 	   var client1 = io.connect(socketURL);
 
