@@ -39,6 +39,9 @@ function sendNotify(vkId, user, gameId){
 		if (err){
 			return err;		
 		}
+		if (user.fsm == null){
+			return ;		
+		}
 		var arr = [];
 		arr.push(user.fsm);
 		var game = getGameById(gameId);
@@ -121,9 +124,7 @@ module.exports = function(http){
                                 objGame = JSON.parse(user.game);
                         }else {
                                 objGame = {};
-
                         }
-
 			addInCurrentOrCreateRoom(socket.room, socket, user.is_lead, objGame);
 			var game = getGameById(socket.room);
 			var fileGame = "";
@@ -183,7 +184,7 @@ module.exports = function(http){
 			io.to(socket.room).emit('win',data);
 	      });
 	      socket.on('test', function(data){
-			console.log(data.word);
+			//console.log(data.word);
 			io.sockets.emit('test',data);
 	      });
 			

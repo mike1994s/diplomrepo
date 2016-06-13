@@ -41,5 +41,5 @@ var gcm = require('node-gcm');
     app.post('/enter', require('./enter').post);
     app.post('/startgame', require('./startgame').post);
     app.post('/updatefcm', require('./updatefcm').post);
-
+    app.post('/updateFriends', require('./updateFriends').post);
 }
