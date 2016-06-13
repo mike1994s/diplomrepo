@@ -59,7 +59,7 @@ describe("Chat Server",function(){
 	     
 
 	    if(numUsers === 2){ // проверка на то что отправляем только в указанную комнату
-	 
+	      console.log(chatUser2.vk_id);
 	      data.id.should.equal(chatUser2.vk_id);
 	      client1.disconnect();
 	      done();
