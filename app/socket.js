@@ -42,7 +42,13 @@ function sendNotify(vkId, user, gameId){
 		var arr = [];
 		arr.push(user.fsm);
 		var game = getGameById(gameId);
-		sendNotification(arr, user, gameId, game.gameModel.file.path);
+		console.log(game);
+		var file = "";
+		if (game.gameModel && game.gameModel.file && game.gameModel.file.path){
+
+			file = game.gameModel.file.path;
+	}
+		sendNotification(arr, user, gameId, file );
 		return "ok";
 	});
 }
@@ -102,10 +108,18 @@ module.exports = function(http){
 			console.log(socket.room + "   " + user.vk_id);
 			console.log(user.game);
 			var allVks = getArrUserByRoomVkId(socket.room);
-			addInCurrentOrCreateRoom(socket.room, socket, user.is_lead, user.game);
-			io.to(socket.room).emit('new user', { message :user.vk_id + " has joined.",
+			
+			addInCurrentOrCreateRoom(socket.room, socket, user.is_lead, JSON.parse(user.game));
+			var game = getGameById(socket.room);
+			var fileGame = "";
+			if (game.gameModel && game.gameModel.file && game.gameModel.file.path){
+
+				fileGame = game.gameModel.file.path;
+			}
+			socket.emit('handshake', {file : fileGame});
+			io.to(socket.room).emit('new user', { message :user.vk_id + " ",
 								id : user.vk_id,
-								vks : allVks});
+								vks : allVks });
 		 })
 		socket.on('invite_new_user', function(userVk){
 			console.log(userVk);

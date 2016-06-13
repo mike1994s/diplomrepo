@@ -2,7 +2,7 @@ var should = require('should');
 var io = require('socket.io-client');
 var Game = require('../models/Game').Game;
  
-var upload = "uploads/file-1465581874888.png"
+var upload = "file-1465669290283.png"
 var socketURL = 'http://nodejsdiplom-openshdiplom.rhcloud.com/';
 var constID = '575c56aa2977a3d28200afd2'
 
@@ -17,7 +17,7 @@ describe("Chat Server",function(){
 		if (err){
 			err.should.equal("");
 		}
-	   chatUser1.game = model;
+	   chatUser1.game = JSON.stringify(model);
 	  
 	   var client1 = io.connect(socketURL);
 
@@ -73,7 +73,7 @@ describe("Chat Server",function(){
 		if (err){
 			err.should.equal("");
 		}
-	   chatUser1.game = model;
+	   chatUser1.game = JSON.stringify(model);
 	   
 	   var client1 = io.connect(socketURL);
 
@@ -114,7 +114,7 @@ describe("Chat Server",function(){
 		if (err){
 			err.should.equal("");
 		}
-	   chatUser1.game = model;
+	   chatUser1.game = JSON.stringify(model);
 	 
 	   var client1 = io.connect(socketURL);
 
@@ -239,7 +239,7 @@ it('Game Not Right Word', function(done){
 		if (err){
 			err.should.equal("");
 		}
-	   chatUser1.game = model;
+	   chatUser1.game = JSON.stringify(model);
 	  
 	   var client1 = io.connect(socketURL);
 
@@ -321,7 +321,7 @@ it('Game Worse Attempt Word', function(done){
 	if (err){
 		err.should.equal("");
 	}
-	   chatUser1.game = model;
+	   chatUser1.game = JSON.stringify(model);
 	  
 	   var client1 = io.connect(socketURL);
 
@@ -402,7 +402,7 @@ it('Game Worse Attempt Word', function(done){
 	if (err){
 		err.should.equal("");
 	}
-	   chatUser1.game = model;
+	   chatUser1.game = JSON.stringify(model);
 	  
 	   var client1 = io.connect(socketURL);
 
