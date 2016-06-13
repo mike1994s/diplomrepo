@@ -154,7 +154,8 @@ module.exports = function(http){
 		socket.on('word', function(word){
 			var game = getGameById(socket.room);
 			if (!game.isStartGame(){
-			
+				io.to(socket.room).emit('word', answer);
+				return;
 			}
 			var wordLowerCase = game.gameModel.word.toLowerCase(); 
 			

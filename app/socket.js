@@ -153,7 +153,7 @@ module.exports = function(http){
 
 		socket.on('word', function(word){
 			var game = getGameById(socket.room);
-			if (!game.isStartGame(){
+			if (!game.isStartGame()){
 				io.to(socket.room).emit('word', answer);
 				return;
 			}
