@@ -137,7 +137,6 @@ module.exports = function(http){
 					     is_lead : user.is_lead});
 			if (game.wasStartGame()){
 				var data = {};
-				game.startGame();
 				data.file = game.gameModel.file.path;
 				data.message = "start game";
 				socket.emit('on_start_game',data);			
