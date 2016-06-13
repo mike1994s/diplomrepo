@@ -163,6 +163,7 @@ module.exports = function(http){
 		socket.on('word', function(word){
 			console.log("word");
 			var game = getGameById(socket.room);
+			var answer = {word : word , vk : socket.vk};
 			if (!game.wasStartGame()){
 				io.to(socket.room).emit('word', answer);
 				return;
@@ -170,7 +171,7 @@ module.exports = function(http){
 			var wordLowerCase = game.gameModel.word.toLowerCase(); 
 			
 			var prevWordLowerCase =word.toLowerCase();
-			var answer = {word : word , vk : socket.vk};
+			
 			if (wordLowerCase == prevWordLowerCase){
 				io.to(socket.room).emit('win', answer);
 			}else {
