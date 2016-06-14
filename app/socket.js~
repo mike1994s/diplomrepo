@@ -5,6 +5,7 @@ var util = require('util');
 var Files = {};
 var GameModel = require('../models/Game').Game;
 var User = require('../models/User').User;
+var Winner = require('../models/Winner').Winner;
 var gcm = require('node-gcm');
 
 
@@ -12,13 +13,14 @@ var ffmpeg = require('fluent-ffmpeg');
 var numUsers = 0;
 var dataGame =  require('./DataGame').DataGame;
 
-function sendNotification(tokens, vkID, gameId, file){
+function sendNotification(tokens, vkID, gameId, file, allVks){
 	var message = new gcm.Message();
 
 	
 	message.addData('leading',vkID);
 	message.addData('id_game', gameId);
  	message.addData('file', file);
+	message.addData('vks', allVks);
 
 	//https://github.com/ToothlessGear/node-gcm/blob/master/examples/notification.js
 	//Add your mobile device registration tokens here
@@ -34,7 +36,7 @@ function sendNotification(tokens, vkID, gameId, file){
    		 }
 	});
 }
-function sendNotify(vkId, user, gameId){
+function sendNotify(vkId, user, gameId, allVks){
 	User.findOne({'vk.id':vkId}, function(err, user){
 		if (err){
 			return err;		
@@ -52,7 +54,7 @@ function sendNotify(vkId, user, gameId){
 		if (game.gameModel && game.gameModel.file && game.gameModel.file.path){
 			file = game.gameModel.file.path;
 		}
-		sendNotification(arr, user, gameId, file );
+		sendNotification(arr, user, gameId, file, allVks);
 		return "ok";
 	});
 }
@@ -65,12 +67,40 @@ function sendNotify(vkId, user, gameId){
 		this.masterSocket = null;
 		this.sockets = [];
 		this.isStartGame = false;
+		this.isGameFinished = false;
+		this.vkWinner = "";
 	}
+	
 	Game.prototype.wasStartGame = function(){
 		return this.isStartGame;	
 	}
 	Game.prototype.startGame = function(){
 		this.isStartGame = true;
+	}
+	Game.prototype.wasGameFinished = function(){
+		return this.isGameFinished;	
+	}
+	Game.prototype.getWinner = function(){
+		return this.vkWinner;
+	}
+	Game.prototype.toEndGame = function(vkWinner){
+		this.isGameFinished = true;
+		this.vkWinner = vkWinner;
+		if (this.gameModel){
+			winner = new Winner({
+	 			id_game: this.gameModel._id,
+	  			word: this.gameModel.word,
+			});
+			winner.vk.id = vkWinner;
+			winner.save(function (err) {
+  				if (err) {
+					console.log(err);
+				}
+				console.log("winner save);
+
+			});
+		}
+		
 	}
 	Game.prototype.add = function(socket, isLead, gameModel){
 		if (isLead == true){
@@ -130,11 +160,17 @@ module.exports = function(http){
 			var game = getGameById(socket.room);
 			var fileGame = "";
 			if (game.gameModel && game.gameModel.file && game.gameModel.file.path){
-
 				fileGame = game.gameModel.file.path;
 			}
+			var wasFinished = game.wasGameFinished();
+			var vkWinner = game.getWinner();
 			socket.emit('handshake', {file : fileGame,
-					     is_lead : user.is_lead});
+					     is_lead : user.is_lead,
+					     was_finished : wasFinished,
+					    vk_winner : vkWinner});
+			if (wasFinished){
+				return;			
+			}
 			if (game.wasStartGame()){
 				var data = {};
 				data.file = game.gameModel.file.path;
@@ -147,7 +183,8 @@ module.exports = function(http){
 		 })
 		socket.on('invite_new_user', function(userVk){
 			console.log("invite_new_user");
-			 sendNotify(userVk, socket.vk, socket.room);
+			var allVks = getArrUserByRoomVkId(socket.room);
+			sendNotify(userVk, socket.vk, socket.room, allVks);
 			socket.emit('invite_new_user',"Ok");	
 		});
 		socket.on('start_game', function(data){
@@ -163,7 +200,7 @@ module.exports = function(http){
 		socket.on('word', function(word){
 			console.log("word");
 			var game = getGameById(socket.room);
-			var answer = {word : word , vk : socket.vk};
+			var answer = {word : word, vk : socket.vk};
 			if (!game.wasStartGame()){
 				io.to(socket.room).emit('word', answer);
 				return;
@@ -173,6 +210,7 @@ module.exports = function(http){
 			var prevWordLowerCase =word.toLowerCase();
 			
 			if (wordLowerCase == prevWordLowerCase && game.masterSocket != socket){
+				game.toEndGame(answer.vk);
 
 				io.to(socket.room).emit('win', answer);
 			}else {
@@ -194,7 +232,10 @@ module.exports = function(http){
 	      });	
 	      socket.on('winner', function(data){
 			console.log("winner");
+			var game = getGameById(socket.room);
+			game.toEndGame(answer.vk);
 			console.log(data.word);
+			
 			io.to(socket.room).emit('win',data);
 	      });
 	      socket.on('test', function(data){
