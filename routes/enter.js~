@@ -32,10 +32,10 @@ exports.post = function(req, res) {
 	console.log("find" + user);
 	if (user == null){
 		user = new User({
- 			id_phone: obj.idphone,
-  			fsm: obj.fsm,
+ 			id_phone: obj.idphone
 		});
 	}
+	user.fsm = obj.fsm;
 	if (obj.type == _VK_TYPE){
 		user.vk.id = obj.id;
 		user.vk.friends = obj.friendsId;

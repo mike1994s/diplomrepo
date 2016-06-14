@@ -91,7 +91,7 @@ function sendNotify(vkId, user, gameId){
 		for (var i = 0; i < this.sockets.length; ++i){
 			this.sockets[i].leave(this.idRoom);
 		}
-		this.isStartGame = false;
+	//	this.isStartGame = false;
 		this.isGameFinished = true;
 		this.vkWinner = vkWinner;
 		this.sockets = []; 
