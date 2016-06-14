@@ -37,17 +37,17 @@ function sendNotification(tokens, vkID, gameId, file, allVks){
 	});
 }
 function sendNotify(vkId, user, gameId, allVks){
-	User.findOne({'vk.id':vkId}, function(err, user){
+	User.findOne({'vk.id':vkId}, function(err, userFound){
 		if (err){
 			return err;		
 		}
 		
-		if (user == null || user.fsm == null){
+		if (userFound == null || userFound.fsm == null){
 			return ;		
 		}
-		console.log("user FSM " + user.fsm);
+		console.log("user FSM " + userFound.fsm);
 		var arr = [];
-		arr.push(user.fsm);
+		arr.push(userFound.fsm);
 		var game = getGameById(gameId);
 		 
 		var file = "";
