@@ -233,7 +233,7 @@ module.exports = function(http){
 	      socket.on('winner', function(data){
 			console.log("winner");
 			var game = getGameById(socket.room);
-			game.toEndGame(answer.vk);
+			game.toEndGame(data.vk);
 			console.log(data.word);
 			
 			io.to(socket.room).emit('win',data);

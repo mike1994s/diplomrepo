@@ -96,7 +96,7 @@ function sendNotify(vkId, user, gameId, allVks){
   				if (err) {
 					console.log(err);
 				}
-				console.log("winner save);
+				console.log("winner save");
 
 			});
 		}
