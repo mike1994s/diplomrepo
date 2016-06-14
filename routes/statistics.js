@@ -8,15 +8,15 @@ exports.get = function(req, res) {
 		var mapId = new Map();
 		for (var i = 0; i < winners.length; ++i){
     			if (type == _VK_TYPE){
-				var vkId = winners[i].vk.id;
-				if (mapId.has(vkId)){
-					var count = mapId.get(vkId);
-					count++;
-					mapId.set(vkId, count);
-				}else {
-					mapId.set(vkId, 0);
+					var vkId = winners[i].vk.id;
+					if (mapId.has(vkId)){
+						var count = mapId.get(vkId);
+						count++;
+						mapId.set(vkId, count);
+					}else {
+						mapId.set(vkId, 0);
+					}
 				}
-			}
 
 		}
 		console.log(map);
@@ -26,7 +26,6 @@ exports.get = function(req, res) {
 			var user = {};
 			user.vk = id;
 			if (mapId.has(id)){
-				
 				user.count_win = mapId.get(id);
 			}else {
 				user.count_win = 0;	
@@ -38,7 +37,7 @@ exports.get = function(req, res) {
 	       		code : "1",
 	      		answer : "ok",
 	      		 data : [{
-				winners: answer
+				winners: answer,
 			}],
 		});
 		return;
@@ -50,6 +49,6 @@ exports.get = function(req, res) {
 	      		answer : err,
 	      		 data : [],
 		});
-		return;
+		  return;
     	});
 });
