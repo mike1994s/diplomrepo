@@ -84,8 +84,7 @@ function sendNotify(vkId, user, gameId){
 	Game.prototype.toEndGame = function(vkWinner){
 		this.isGameFinished = true;
 		this.vkWinner = vkWinner;
-		this.sockets = [];
-		this.masterSocket = null
+		this.sockets = []; 
 		if (this.gameModel){
 			winner = new Winner({
 	 			id_game: this.gameModel._id,
@@ -215,12 +214,15 @@ module.exports = function(http){
 			var prevWordLowerCase =word.toLowerCase();
 			
 			if (wordLowerCase == prevWordLowerCase && game.masterSocket != socket){
-				game.toEndGame(answer.vk);
+				if (game.wasGameFinished()){
+					return;
+				}
 
 				io.to(socket.room).emit('win', answer);
 				io.sockets.clients(socket.room).forEach(function(s){
-				    s.leave(socket.room);
+					   s.leave(socket.room);
 				});
+				game.toEndGame(answer.vk);
 			}else {
 				io.to(socket.room).emit('word', answer);
 			}
@@ -240,14 +242,18 @@ module.exports = function(http){
 	      });	
 	      socket.on('winner', function(data){
 			console.log("winner");
+			if (game.wasGameFinished()){
+					return;
+			}
 			var game = getGameById(socket.room);
-			game.toEndGame(data.vk);
+			
 			console.log(data.word);
 			
 			io.to(socket.room).emit('win',data);
 			io.sockets.clients(socket.room).forEach(function(s){
 			    s.leave(socket.room);
 			});
+			game.toEndGame(data.vk);
 	      });
 	      socket.on('test', function(data){
 			console.log("test");
