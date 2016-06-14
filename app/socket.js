@@ -19,8 +19,7 @@ function sendNotification(tokens, vkID, gameId, file, allVks){
 	
 	message.addData('leading',vkID);
 	message.addData('id_game', gameId);
- 	message.addData('file', file);
-	message.addData('vks', allVks);
+ 	message.addData('file', file); 
 
 	//https://github.com/ToothlessGear/node-gcm/blob/master/examples/notification.js
 	//Add your mobile device registration tokens here
@@ -36,7 +35,7 @@ function sendNotification(tokens, vkID, gameId, file, allVks){
    		 }
 	});
 }
-function sendNotify(vkId, user, gameId, allVks){
+function sendNotify(vkId, user, gameId){
 	User.findOne({'vk.id':vkId}, function(err, userFound){
 		if (err){
 			return err;		
@@ -54,7 +53,7 @@ function sendNotify(vkId, user, gameId, allVks){
 		if (game.gameModel && game.gameModel.file && game.gameModel.file.path){
 			file = game.gameModel.file.path;
 		}
-		sendNotification(arr, user, gameId, file, allVks);
+		sendNotification(arr, user, gameId, file);
 		return "ok";
 	});
 }
@@ -183,8 +182,8 @@ module.exports = function(http){
 		 })
 		socket.on('invite_new_user', function(userVk){
 			console.log("invite_new_user");
-			var allVks = getArrUserByRoomVkId(socket.room);
-			sendNotify(userVk, socket.vk, socket.room, allVks);
+			 
+			sendNotify(userVk, socket.vk, socket.room);
 			socket.emit('invite_new_user',"Ok");	
 		});
 		socket.on('start_game', function(data){
