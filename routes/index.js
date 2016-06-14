@@ -42,4 +42,5 @@ var gcm = require('node-gcm');
     app.post('/startgame', require('./startgame').post);
     app.post('/updatefcm', require('./updatefcm').post);
     app.post('/updateFriends', require('./updateFriends').post);
+    app.get('/getStatistic/:type/:ids', require('./statistics').get);
 }

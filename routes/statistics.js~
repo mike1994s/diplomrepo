@@ -1,0 +1,7 @@
+var Winners = require('../models/Winners').Winners;
+ 
+exports.get = function(req, res) {
+	var ids = req.params.ids.split(',');
+	var type = req.params.type;
+	
+});
