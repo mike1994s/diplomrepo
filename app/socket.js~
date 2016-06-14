@@ -217,6 +217,9 @@ module.exports = function(http){
 				game.toEndGame(answer.vk);
 
 				io.to(socket.room).emit('win', answer);
+				io.sockets.clients(socket.room).forEach(function(s){
+				    s.leave(someRoom);
+				});
 			}else {
 				io.to(socket.room).emit('word', answer);
 			}
@@ -241,6 +244,9 @@ module.exports = function(http){
 			console.log(data.word);
 			
 			io.to(socket.room).emit('win',data);
+			io.sockets.clients(socket.room).forEach(function(s){
+			    s.leave(someRoom);
+			})
 	      });
 	      socket.on('test', function(data){
 			console.log("test");
