@@ -126,14 +126,19 @@ function sendNotify(vkId, user, gameId){
 		game.add(socket, isLead, gameModel);
 		console.log(games.length);
 	} 
-	function getArrUserByRoomVkId(idRoom){
+	function getArrUserByRoomVkId(idRoom, vkOfRequest){
 		var game = getGameById(idRoom);
 		var sockets = game.sockets;
 		var arr = [];
-		if (game.masterSocket != null)
-			arr.push(game.masterSocket.vk);
+		if (game.masterSocket != null) {
+			if (vkOfRequest !=game.masterSocket.vk){
+				arr.push(game.masterSocket.vk);
+			}
+		}	
 		for (var i = 0; i < sockets.length; ++i){
-			arr.push(sockets[i].vk);
+			if (vkOfRequest !=game.masterSocket.vk){
+				arr.push(sockets[i].vk);
+			}
 		}
 		return arr;
 	}
@@ -148,7 +153,7 @@ module.exports = function(http){
 			socket.join(user.id_room);
 		//	console.log(socket.room + "   " + user.vk_id);
 		//	console.log(user.game);
-			var allVks = getArrUserByRoomVkId(socket.room);
+			var allVks = getArrUserByRoomVkId(socket.room, socket.vk);
 			var objGame;
 			 if (user.game){
                                 objGame = JSON.parse(user.game);
