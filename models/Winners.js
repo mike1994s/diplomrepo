@@ -17,4 +17,4 @@ var schema =  new Schema({
   	}
    },
 });
-exports.Winner = mongoose.model('Winner', schema); 
+exports.Winners = mongoose.model('Winners', schema); 

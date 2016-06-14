@@ -5,7 +5,7 @@ var util = require('util');
 var Files = {};
 var GameModel = require('../models/Game').Game;
 var User = require('../models/User').User;
-var Winner = require('../models/Winner').Winner;
+var Winner = require('../models/Winners').Winners;
 var gcm = require('node-gcm');
 
 
