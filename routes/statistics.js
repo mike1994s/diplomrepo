@@ -51,4 +51,4 @@ exports.get = function(req, res) {
 		});
 		  return;
     	});
-});
+};
