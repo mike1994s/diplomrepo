@@ -68,7 +68,9 @@ function sendNotify(vkId, user, gameId){
 		this.isGameFinished = false;
 		this.vkWinner = "";
 	}
-	
+	Game.prototype.socketsList = function(){
+		return this.sockets;
+	}
 	Game.prototype.wasStartGame = function(){
 		return this.isStartGame;	
 	}
@@ -82,6 +84,12 @@ function sendNotify(vkId, user, gameId){
 		return this.vkWinner;
 	}
 	Game.prototype.toEndGame = function(vkWinner){
+		if (this.isGameFinished){
+			return ;
+		}
+		for (var i = 0; i < this.sockets.length; ++i){
+			this.sockets[i].leave(this.idRoom);
+		}
 		this.isGameFinished = true;
 		this.vkWinner = vkWinner;
 		this.sockets = []; 
@@ -214,14 +222,8 @@ module.exports = function(http){
 			var prevWordLowerCase =word.toLowerCase();
 			
 			if (wordLowerCase == prevWordLowerCase && game.masterSocket != socket){
-				if (game.wasGameFinished()){
-					return;
-				}
-
 				io.to(socket.room).emit('win', answer);
-				io.sockets.clients(socket.room).forEach(function(s){
-					   s.leave(socket.room);
-				});
+				 
 				game.toEndGame(answer.vk);
 			}else {
 				io.to(socket.room).emit('word', answer);
@@ -242,18 +244,14 @@ module.exports = function(http){
 	      });	
 	      socket.on('winner', function(data){
 			console.log("winner");
-			if (game.wasGameFinished()){
-					return;
-			}
+			 
 			var game = getGameById(socket.room);
 			
 			console.log(data.word);
 			
 			io.to(socket.room).emit('win',data);
-			io.sockets.clients(socket.room).forEach(function(s){
-			    s.leave(socket.room);
-			});
-			game.toEndGame(data.vk);
+	 
+			game.toEndGame(data.vk );
 	      });
 	      socket.on('test', function(data){
 			console.log("test");
