@@ -58,8 +58,7 @@ function sendNotify(vkId, user, gameId){
 	});
 }
 
-   	function Game(idRoom){
-		this.isActive = true;
+   	function Game(idRoom){ 
 		this.idRoom = idRoom;
 		this.error = null;
 		this.gameModel;	
@@ -85,6 +84,8 @@ function sendNotify(vkId, user, gameId){
 	Game.prototype.toEndGame = function(vkWinner){
 		this.isGameFinished = true;
 		this.vkWinner = vkWinner;
+		this.sockets = [];
+		this.masterSocket = null
 		if (this.gameModel){
 			winner = new Winner({
 	 			id_game: this.gameModel._id,
@@ -218,7 +219,7 @@ module.exports = function(http){
 
 				io.to(socket.room).emit('win', answer);
 				io.sockets.clients(socket.room).forEach(function(s){
-				    s.leave(someRoom);
+				    s.leave(socket.room);
 				});
 			}else {
 				io.to(socket.room).emit('word', answer);
@@ -245,7 +246,7 @@ module.exports = function(http){
 			
 			io.to(socket.room).emit('win',data);
 			io.sockets.clients(socket.room).forEach(function(s){
-			    s.leave(someRoom);
+			    s.leave(socket.room);
 			});
 	      });
 	      socket.on('test', function(data){
