@@ -76,6 +76,7 @@ function sendNotify(vkId, user, gameId){
 	}
 	Game.prototype.startGame = function(){
 		this.isStartGame = true;
+		this.isGameFinished = false;
 	}
 	Game.prototype.wasGameFinished = function(){
 		return this.isGameFinished;	
@@ -83,7 +84,7 @@ function sendNotify(vkId, user, gameId){
 	Game.prototype.getWinner = function(){
 		return this.vkWinner;
 	}
-	Game.prototype.toEndGame = function(vkWinner, io){
+	Game.prototype.toEndGame = function(vkWinner){
 		if (this.isGameFinished){
 			return ;
 		}

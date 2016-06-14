@@ -76,6 +76,7 @@ function sendNotify(vkId, user, gameId){
 	}
 	Game.prototype.startGame = function(){
 		this.isStartGame = true;
+		this.isGameFinished = false;
 	}
 	Game.prototype.wasGameFinished = function(){
 		return this.isGameFinished;	
@@ -90,6 +91,7 @@ function sendNotify(vkId, user, gameId){
 		for (var i = 0; i < this.sockets.length; ++i){
 			this.sockets[i].leave(this.idRoom);
 		}
+		this.isStartGame = false;
 		this.isGameFinished = true;
 		this.vkWinner = vkWinner;
 		this.sockets = []; 
