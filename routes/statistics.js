@@ -19,7 +19,7 @@ exports.get = function(req, res) {
 				}
 
 		}
-		console.log(map);
+		console.log(mapId);
 		var answer = [];
 		
 		ids.map(function(id){
