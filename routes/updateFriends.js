@@ -18,7 +18,7 @@ exports.post = function(req, res) {
 	});
 	return;	
      }
-var promise = Users.findOne({'id_phone':obj.idphone}).exec();
+var promise = User.findOne({'id_phone':obj.idphone}).exec();
 promise.then(function(user) {
 	
 	if (user == null){
@@ -38,7 +38,7 @@ promise.then(function(user) {
 .then(function(user){
   	var arr = user.vk.friends;
 	var friendsId = [];
-	Users.find({} , function(err, users){
+	User.find({} , function(err, users){
 		if (err){
 			res.json({
 			       code : "0",
