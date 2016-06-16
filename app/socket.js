@@ -79,7 +79,7 @@ function sendNotifyToMany(vkIds, user, gameId){
 			if (usersFound[i].vk && usersFound[i].vk.id && arrayContain(vkIds, usersFound[i].vk.id)){
 				arr.push(usersFound[i].fsm);
 				arrInvited.push(usersFound[i].vk.id);
-				console.log("user FSM " + usersFound[i].fsm);
+				console.log("user FSM vk id " + usersFound[i].vk.id);
 			}
 		}
 		var game = getGameById(gameId);
@@ -250,7 +250,7 @@ module.exports = function(http){
 		socket.on('invite_new_users', function(userVks){
 			console.log("invite_new_user");
 			var ids = userVks.split(',');
-			console.log('invite_new_users' + userVks);
+			console.log('invite_new_users' + ids);
 			var game = getGameById(socket.room);
 			game.setInvitedVks(ids);
 			sendNotifyToMany(ids, socket.vk, socket.room);

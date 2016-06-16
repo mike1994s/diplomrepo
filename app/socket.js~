@@ -24,8 +24,8 @@ function sendNotification(tokens, vkID, gameId, file, allVks){
 	message.addData('leading',vkID);
 	message.addData('id_game', gameId);
  	message.addData('file', file); 
-	console.log("sendNOtification" + allVks);
-	console.log("sendNOtification" + allVks);
+	console.log("sendNOtification " + allVks);
+	console.log("sendNOtification tokens " + tokens);
 	message.addData('notify_vk',allVks ); 
 	//https://github.com/ToothlessGear/node-gcm/blob/master/examples/notification.js
 	//Add your mobile device registration tokens here
@@ -79,7 +79,7 @@ function sendNotifyToMany(vkIds, user, gameId){
 			if (usersFound[i].vk && usersFound[i].vk.id && arrayContain(vkIds, usersFound[i].vk.id)){
 				arr.push(usersFound[i].fsm);
 				arrInvited.push(usersFound[i].vk.id);
-				console.log("user FSM " + usersFound[i].fsm);
+				console.log("user FSM vk id " + usersFound[i].vk.id));
 			}
 		}
 		var game = getGameById(gameId);
@@ -250,7 +250,7 @@ module.exports = function(http){
 		socket.on('invite_new_users', function(userVks){
 			console.log("invite_new_user");
 			var ids = userVks.split(',');
-			console.log('invite_new_users' + userVks);
+			console.log('invite_new_users' + ids);
 			var game = getGameById(socket.room);
 			game.setInvitedVks(ids);
 			sendNotifyToMany(ids, socket.vk, socket.room);
