@@ -24,6 +24,7 @@ function sendNotification(tokens, vkID, gameId, file, allVks, vkNotifyIds){
 	message.addData('leading',vkID);
 	message.addData('id_game', gameId);
  	message.addData('file', file); 
+	console.log("sendNOtification" + vkNotifyIds);
 	message.addData('notify_vk',vkNotifyIds ); 
 	//https://github.com/ToothlessGear/node-gcm/blob/master/examples/notification.js
 	//Add your mobile device registration tokens here
@@ -72,6 +73,7 @@ function sendNotifyToMany(vkIds, user, gameId){
 		}
 		var arr = [];
 		var arrInvited = [];
+		console.log("sendNotifyToMany " + usersFound.length);
 		for (var i = 0; i < usersFound.length; ++i){
 			if (usersFound[i].vk && usersFound[i].vk.id && arrayContain(vkIds, usersFound[i].vk.id)){
 				arr.push(usersFound[i].fsm);
