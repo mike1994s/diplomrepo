@@ -230,7 +230,7 @@ module.exports = function(http){
 			sendNotify(userVk, socket.vk, socket.room);
 			socket.emit('invite_new_user',"Ok");	
 		});
-		socket.on('invite_new_users', function(userVk){
+		socket.on('invite_new_users', function(userVks){
 			console.log("invite_new_user");
 			 
 			sendNotifyToMany(userVks, socket.vk, socket.room);
