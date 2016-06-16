@@ -249,7 +249,7 @@ module.exports = function(http){
 		socket.on('invite_new_users', function(userVks){
 			console.log("invite_new_user");
 			var ids = userVks; //userVks.ids.split(',');
-			console.log(userVks);
+			console.log('invite_new_users' + userVks);
 			var game = getGameById(socket.room);
 			game.setInvitedVks(ids);
 			sendNotifyToMany(ids, socket.vk, socket.room);
@@ -261,7 +261,11 @@ module.exports = function(http){
 			var game = getGameById(socket.room);
 			var data = {};
 			game.startGame();
-			data.file = game.gameModel.file.path;
+			data.file = "";
+			if (game.gameModel.file){
+				data.file = game.gameModel.file.path || "" ;
+			}
+			
 			data.message = "start game";
 			io.to(socket.room).emit('on_start_game',data);
 		});
