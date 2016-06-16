@@ -15,7 +15,7 @@ var dataGame =  require('./DataGame').DataGame;
 
 
 function arrayContain(arr, str){
-	return (arr && arr.indexOf(str) > -1);
+	return (arr.indexOf(str) > -1);
 }
 function sendNotification(tokens, vkID, gameId, file, allVks){
 	var message = new gcm.Message();
@@ -76,8 +76,8 @@ function sendNotifyToMany(vkIds, user, gameId){
 		var arrInvited = [];
 		console.log("sendNotifyToMany " + usersFound.length);
 		for (var i = 0; i < usersFound.length; ++i){
-			console.log("usersFound " + usersFound[i].vk.id);
-			if (usersFound[i].vk && usersFound[i].vk.id && arrayContain(vkIds, usersFound[i].vk.id)){
+			if (arrayContain(vkIds, usersFound[i].vk.id)){
+				console.log("FOUND_USER" + usersFound[i].vk.id);
 				arr.push(usersFound[i].fsm);
 				arrInvited.push(usersFound[i].vk.id);
 				console.log("user FSM vk id " + usersFound[i].vk.id);
@@ -249,10 +249,11 @@ module.exports = function(http){
 			socket.emit('invite_new_user',"Ok");	
 		});
 		socket.on('invite_new_users', function(userVks){
-			console.log("invite_new_user");
+			console.log("invite_new_users");
+			console.log('invite_new_users' + ids);
 			var ids = userVks.split(',');
 			console.log('invite_new_users' + ids);
-			console.log('invite_new_users len' + ids);
+			console.log('invite_new_users len' + ids.length);
 			var game = getGameById(socket.room);
 			game.setInvitedVks(ids);
 			sendNotifyToMany(ids, socket.vk, socket.room);
