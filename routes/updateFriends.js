@@ -77,16 +77,16 @@ promise.then(function(user) {
 		var answer = [];
 		
 		friendsId.map(function(id){
-			var user = {};
-			user.vk = id;
+			var userTemp = {};
+			userTemp.vk = id;
 			if (mapId.has(id)){
-				user.count_win = mapId.get(id);
+				userTemp.count_win = mapId.get(id);
 			}else {
-				user.count_win = 0;	
+				userTemp.count_win = 0;	
 			}
-			answer.push(user);
+			answer.push(userTemp);
 		});
-	
+			console.dir("object" + answer);
 			res.json({
 			code : "1",
 			answer : "ok",
