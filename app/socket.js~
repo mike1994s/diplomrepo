@@ -20,11 +20,11 @@ function arrayContain(arr, str){
 function sendNotification(tokens, vkID, gameId, file, allVks, vkNotifyIds){
 	var message = new gcm.Message();
 
-	var notificationUsers = vkNotifyIds.join(',');
+	 
 	message.addData('leading',vkID);
 	message.addData('id_game', gameId);
  	message.addData('file', file); 
-	message.addData('notify_vk', ); 
+	message.addData('notify_vk',vkNotifyIds ); 
 	//https://github.com/ToothlessGear/node-gcm/blob/master/examples/notification.js
 	//Add your mobile device registration tokens here
 	var regTokens =tokens;
@@ -57,7 +57,7 @@ function sendNotify(vkId, user, gameId){
 		if (game.gameModel && game.gameModel.file && game.gameModel.file.path){
 			file = game.gameModel.file.path;
 		}
-		sendNotification(arr, user, gameId, file, []);
+		sendNotification(arr, user, gameId, file, "");
 		return "ok";
 	});
 }
@@ -84,7 +84,8 @@ function sendNotifyToMany(vkIds, user, gameId){
 		if (game.gameModel && game.gameModel.file && game.gameModel.file.path){
 			file = game.gameModel.file.path;
 		}
-		sendNotification(arr, user, gameId, file, arrInvited);
+		var invitedFriends = arrInvited.join(',');
+		sendNotification(arr, user, gameId, file, invitedFriends);
 		return "ok";
 	});
 }
