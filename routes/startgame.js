@@ -1,6 +1,8 @@
 var Game = require('../models/Game').Game;
 var path = require('path')
 var User = require('../models/User').User;
+var Winners = require('../models/Winners').Winners;
+ 
 var fs = require('fs');
 var _VK_TYPE = "vk";
 var _FB_TYPE = "fb"; 
