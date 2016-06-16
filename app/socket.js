@@ -245,9 +245,10 @@ module.exports = function(http){
 		});
 		socket.on('invite_new_users', function(userVks){
 			console.log("invite_new_user");
+			var ids = userVks.ids.split(',');
 			var game = getGameById(socket.room);
-			game.setInvitedVks(userVks);
-			sendNotifyToMany(userVks, socket.vk, socket.room);
+			game.setInvitedVks(ids);
+			sendNotifyToMany(ids, socket.vk, socket.room);
 			socket.emit('invite_new_user',"Ok");	
 		});
 

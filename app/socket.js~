@@ -84,7 +84,7 @@ function sendNotifyToMany(vkIds, user, gameId){
 		if (game.gameModel && game.gameModel.file && game.gameModel.file.path){
 			file = game.gameModel.file.path;
 		}
-		sendNotification(arr, user, gameId, file, vkIds);
+		sendNotification(arr, user, gameId, file, arrInvited);
 		return "ok";
 	});
 }
@@ -245,8 +245,9 @@ module.exports = function(http){
 		});
 		socket.on('invite_new_users', function(userVks){
 			console.log("invite_new_user");
+			var ids = userVks.ids.split(',');
 			var game = getGameById(socket.room);
-			game.setInvitedVks(userVks);
+			game.setInvitedVks(ids);
 			sendNotifyToMany(userVks, socket.vk, socket.room);
 			socket.emit('invite_new_user',"Ok");	
 		});
