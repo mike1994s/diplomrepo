@@ -88,7 +88,7 @@ function sendNotifyToMany(vkIds, user, gameId){
 		if (game.gameModel && game.gameModel.file && game.gameModel.file.path){
 			file = game.gameModel.file.path;
 		}
-		var invitedFriends = vkIds.join(',');
+		var invitedFriends = arrInvited.join(',');
 		sendNotification(arr, user, gameId, file, invitedFriends);
 		return "ok";
 	});
