@@ -24,7 +24,8 @@ function sendNotification(tokens, vkID, gameId, file, allVks){
 	message.addData('leading',vkID);
 	message.addData('id_game', gameId);
  	message.addData('file', file); 
-	console.log("sendNOtification" + allVks);
+	console.log("sendNOtification " + allVks);
+	console.log("sendNOtification tokens " + tokens);
 	message.addData('notify_vk',allVks ); 
 	//https://github.com/ToothlessGear/node-gcm/blob/master/examples/notification.js
 	//Add your mobile device registration tokens here
