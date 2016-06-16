@@ -13,6 +13,10 @@ var ffmpeg = require('fluent-ffmpeg');
 var numUsers = 0;
 var dataGame =  require('./DataGame').DataGame;
 
+
+function arrayContain(arr, str){
+	return (arr && arr.indexOf(str) > -1);
+}
 function sendNotification(tokens, vkID, gameId, file, allVks){
 	var message = new gcm.Message();
 
@@ -57,6 +61,31 @@ function sendNotify(vkId, user, gameId){
 		return "ok";
 	});
 }
+function sendNotifyToMany(vkIds, user, gameId){
+	User.find({}, function(err, usersFound){
+		if (err){
+			return err;		
+		}
+		
+		if (usersFound == null){
+			return ;		
+		}
+		var arr = [];
+		for (var i = 0; i < usersFound.length; ++i){
+			if (usersFound[i].vk && usersFound[i].vk.id && arrayContain(vkIds, usersFound[i].vk.id){
+				arr.push(usersFound[i].fsm);
+				console.log("user FSM " + usersFound[i].fsm);
+			}
+		}
+		var game = getGameById(gameId);
+		var file = "";
+		if (game.gameModel && game.gameModel.file && game.gameModel.file.path){
+			file = game.gameModel.file.path;
+		}
+		sendNotification(arr, user, gameId, file);
+		return "ok";
+	});
+}
 
    	function Game(idRoom){ 
 		this.idRoom = idRoom;
@@ -91,7 +120,7 @@ function sendNotify(vkId, user, gameId){
 		for (var i = 0; i < this.sockets.length; ++i){
 			this.sockets[i].leave(this.idRoom);
 		}
-		this.isStartGame = false;
+	//	this.isStartGame = false;
 		this.isGameFinished = true;
 		this.vkWinner = vkWinner;
 		this.sockets = []; 
@@ -201,6 +230,13 @@ module.exports = function(http){
 			sendNotify(userVk, socket.vk, socket.room);
 			socket.emit('invite_new_user',"Ok");	
 		});
+		socket.on('invite_new_users', function(userVk){
+			console.log("invite_new_user");
+			 
+			sendNotifyToMany(userVks, socket.vk, socket.room);
+			socket.emit('invite_new_user',"Ok");	
+		});
+
 		socket.on('start_game', function(data){
 			console.log("start_game");
 			var game = getGameById(socket.room);

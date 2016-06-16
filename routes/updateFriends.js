@@ -3,7 +3,7 @@ var _VK_TYPE = "vk";
 var _FB_TYPE = "fb";
 
 function arrayContain(arr, str){
-	return (arr.indexOf(str) > -1);
+	return (arr && arr.indexOf(str) > -1);
 }
 
 exports.post = function(req, res) {
