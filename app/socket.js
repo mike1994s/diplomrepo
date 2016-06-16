@@ -15,6 +15,7 @@ var dataGame =  require('./DataGame').DataGame;
 
 
 function arrayContain(arr, str){
+	console.dir(arr);
 	console.log(arr + " = array for found; found_ELEMENT " + str);
 	return (arr.indexOf(str) > -1);
 }
@@ -77,7 +78,7 @@ function sendNotifyToMany(vkIds, user, gameId){
 		var arrInvited = [];
 		console.log("sendNotifyToMany " + usersFound.length);
 		for (var i = 0; i < usersFound.length; ++i){
-			if (arrayContain(vkIds, usersFound[i].vk.id)){
+			if (arrayContain(vkIds, usersFound[i].vk.id.trim())){
 				console.log("FOUND_USER" + usersFound[i].vk.id);
 				arr.push(usersFound[i].fsm);
 				arrInvited.push(usersFound[i].vk.id);

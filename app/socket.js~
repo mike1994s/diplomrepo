@@ -77,7 +77,7 @@ function sendNotifyToMany(vkIds, user, gameId){
 		var arrInvited = [];
 		console.log("sendNotifyToMany " + usersFound.length);
 		for (var i = 0; i < usersFound.length; ++i){
-			if (arrayContain(vkIds, usersFound[i].vk.id)){
+			if (arrayContain(vkIds, usersFound[i].vk.id.trim())){
 				console.log("FOUND_USER" + usersFound[i].vk.id);
 				arr.push(usersFound[i].fsm);
 				arrInvited.push(usersFound[i].vk.id);
