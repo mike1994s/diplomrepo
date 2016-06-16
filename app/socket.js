@@ -17,7 +17,7 @@ var dataGame =  require('./DataGame').DataGame;
 function arrayContain(arr, str){
 	return (arr && arr.indexOf(str) > -1);
 }
-function sendNotification(tokens, vkID, gameId, file, allVks, vkNotifyIds){
+function sendNotification(tokens, vkID, gameId, file, allVks){
 	var message = new gcm.Message();
 
 	 
