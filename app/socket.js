@@ -17,14 +17,14 @@ var dataGame =  require('./DataGame').DataGame;
 function arrayContain(arr, str){
 	return (arr && arr.indexOf(str) > -1);
 }
-function sendNotification(tokens, vkID, gameId, file, allVks){
+function sendNotification(tokens, vkID, gameId, file, allVks, vkNotifyIds){
 	var message = new gcm.Message();
 
 	
 	message.addData('leading',vkID);
 	message.addData('id_game', gameId);
  	message.addData('file', file); 
-
+	message.addData('notify_vk', vkNotifyIds); 
 	//https://github.com/ToothlessGear/node-gcm/blob/master/examples/notification.js
 	//Add your mobile device registration tokens here
 	var regTokens =tokens;
@@ -57,7 +57,7 @@ function sendNotify(vkId, user, gameId){
 		if (game.gameModel && game.gameModel.file && game.gameModel.file.path){
 			file = game.gameModel.file.path;
 		}
-		sendNotification(arr, user, gameId, file);
+		sendNotification(arr, user, gameId, file, []);
 		return "ok";
 	});
 }
@@ -71,9 +71,11 @@ function sendNotifyToMany(vkIds, user, gameId){
 			return ;		
 		}
 		var arr = [];
+		var arrInvited = [];
 		for (var i = 0; i < usersFound.length; ++i){
 			if (usersFound[i].vk && usersFound[i].vk.id && arrayContain(vkIds, usersFound[i].vk.id)){
 				arr.push(usersFound[i].fsm);
+				arrInvited.push(usersFound[i].vk.id);
 				console.log("user FSM " + usersFound[i].fsm);
 			}
 		}
@@ -82,7 +84,7 @@ function sendNotifyToMany(vkIds, user, gameId){
 		if (game.gameModel && game.gameModel.file && game.gameModel.file.path){
 			file = game.gameModel.file.path;
 		}
-		sendNotification(arr, user, gameId, file);
+		sendNotification(arr, user, gameId, file, arrInvited);
 		return "ok";
 	});
 }
@@ -96,6 +98,7 @@ function sendNotifyToMany(vkIds, user, gameId){
 		this.isStartGame = false;
 		this.isGameFinished = false;
 		this.vkWinner = "";
+		this.invited_vk = [];
 	}
 	Game.prototype.socketsList = function(){
 		return this.sockets;
@@ -140,6 +143,9 @@ function sendNotifyToMany(vkIds, user, gameId){
 		}
 		
 	}
+	Game.prototype.setInvitedVks = function(vks){
+		this.invited_vk = vks;
+	} 
 	Game.prototype.add = function(socket, isLead, gameModel){
 		if (isLead == true){
 			this.masterSocket = socket;
@@ -202,15 +208,22 @@ module.exports = function(http){
 			addInCurrentOrCreateRoom(socket.room, socket, user.is_lead, objGame);
 			var game = getGameById(socket.room);
 			var fileGame = "";
+			var word = "";
+			var wasFinished = game.wasGameFinished();
+			if (game.gameModel && game.gameModel.word && wasFinished){
+				word = game.gameModel.word;
+			}  
+			
 			if (game.gameModel && game.gameModel.file && game.gameModel.file.path){
 				fileGame = game.gameModel.file.path;
 			}
-			var wasFinished = game.wasGameFinished();
+			
 			var vkWinner = game.getWinner();
 			socket.emit('handshake', {file : fileGame,
 					     is_lead : user.is_lead,
 					     was_finished : wasFinished,
-					    vk_winner : vkWinner});
+					    vk_winner : vkWinner,
+					    word : word});
 			if (wasFinished){
 				return;			
 			}
@@ -232,7 +245,8 @@ module.exports = function(http){
 		});
 		socket.on('invite_new_users', function(userVks){
 			console.log("invite_new_user");
-			 
+			var game = getGameById(socket.room);
+			game.setInvitedVks(userVks);
 			sendNotifyToMany(userVks, socket.vk, socket.room);
 			socket.emit('invite_new_user',"Ok");	
 		});
