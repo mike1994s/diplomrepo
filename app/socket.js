@@ -248,7 +248,7 @@ module.exports = function(http){
 		});
 		socket.on('invite_new_users', function(userVks){
 			console.log("invite_new_user");
-			var ids = ids.split(',');
+			var ids = userVks.split(',');
 			console.log('invite_new_users' + userVks);
 			var game = getGameById(socket.room);
 			game.setInvitedVks(ids);
