@@ -15,6 +15,7 @@ var dataGame =  require('./DataGame').DataGame;
 
 
 function arrayContain(arr, str){
+	console.log(arr + " = array for found; found_ELEMENT " + str);
 	return (arr.indexOf(str) > -1);
 }
 function sendNotification(tokens, vkID, gameId, file, allVks){
