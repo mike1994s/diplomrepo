@@ -36,7 +36,7 @@ promise.then(function(user) {
 	return user.save();
 })
 .then(function(user){
-  	var arr = user.vk.friends;
+  	var arr = user.vk.friends || [];
 	var friendsId = [];
 	User.find({} , function(err, users){
 		if (err){
