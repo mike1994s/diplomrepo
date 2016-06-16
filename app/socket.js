@@ -20,11 +20,11 @@ function arrayContain(arr, str){
 function sendNotification(tokens, vkID, gameId, file, allVks, vkNotifyIds){
 	var message = new gcm.Message();
 
-	
+	var notificationUsers = vkNotifyIds.join(',');
 	message.addData('leading',vkID);
 	message.addData('id_game', gameId);
  	message.addData('file', file); 
-	message.addData('notify_vk', vkNotifyIds); 
+	message.addData('notify_vk',notificationUsers ); 
 	//https://github.com/ToothlessGear/node-gcm/blob/master/examples/notification.js
 	//Add your mobile device registration tokens here
 	var regTokens =tokens;
@@ -245,7 +245,7 @@ module.exports = function(http){
 		});
 		socket.on('invite_new_users', function(userVks){
 			console.log("invite_new_user");
-			var ids = userVks.ids.split(',');
+			var ids = userVks; //userVks.ids.split(',');
 			var game = getGameById(socket.room);
 			game.setInvitedVks(ids);
 			sendNotifyToMany(ids, socket.vk, socket.room);
