@@ -31,7 +31,7 @@ var schema =  new Schema({
    },
 });
 
-schema.statics.sendPush = function(tokens, vkID, gameId, file, allVks){
+schema.statics.sendPush = function(tokens, vkID, gameId, file, allVks, save = true){
 	var Push = this;
 	var message = new gcm.Message();
 	message.addData('leading',vkID);
@@ -45,15 +45,18 @@ schema.statics.sendPush = function(tokens, vkID, gameId, file, allVks){
 	var regTokens = tokens;
 	//Replace your developer API key with GCM enabled here
 	var sender = new gcm.Sender('AIzaSyDqbKDS6ATiItrcjIYJdsvbChpGnp_DrIc');
-	for (var i = 0; i < regTokens.length; ++i){
-		var newPush = new Push({
-			reg_token : regTokens[i],
-			 leader_id : vkID,
-			 id_game :  gameId,
-			 file : file,
-			 notified_users : allVks,
-		});	
+	if (save){
+			for (var i = 0; i < regTokens.length; ++i){
+			var newPush = new Push({
+				reg_token : regTokens[i],
+				 leader_id : vkID,
+				 id_game :  gameId,
+				 file : file,
+				 notified_users : allVks,
+			});	
 		newPush.save();
+	}
+
 	}
 	sender.send(message, regTokens, function (err, response) {
    		if(err) {
@@ -79,7 +82,7 @@ schema.statics.rePush = function(){
 					tokens.push(currentPush.reg_token);
 
 					Push.sendPush(tokens, currentPush.leader_id, currentPush.id_game, currentPush.file, 
-						currentPush.notified_users);
+						currentPush.notified_users, false);
 					currentPush.last_attempt_date = nowTime;
 					currentPush.save();
 				}else if (diff >  _MAX_DELAY_FOR_DELETE) {
