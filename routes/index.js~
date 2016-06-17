@@ -43,4 +43,5 @@ var gcm = require('node-gcm');
     app.post('/updatefcm', require('./updatefcm').post);
     app.post('/updateFriends', require('./updateFriends').post);
     app.get('/getStatistic/:type/:ids', require('./statistics').get);
+    app.post('/confirmpush', require('./confirmpush').post);
 }
