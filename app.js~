@@ -1,43 +1,70 @@
-const http         = require('http'),
-      fs           = require('fs'),
-      path         = require('path'),
-      contentTypes = require('./utils/content-types'),
-      sysInfo      = require('./utils/sys-info'),
-      env          = process.env;
+//var app = require('http').createServer(handler)
+/*
+var express  = require('express');
+var app = express();
+var http = require('http').createServer(app);
+var path = require('path');
+var config = require('./config');
+var busboy = require('connect-busboy');
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var ipaddress = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1"; 
+app.use(busboy()); 
+app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+app.set('view engine', 'ejs');
+app.use(express.static('Video'));
+app.use(express.static('uploads'));
+require('./routes')(app, http);
+http.listen(process.env.OPENSHIFT_NODEJS_PORT || config.get('port'), ipaddress);
 
-let server = http.createServer(function (req, res) {
-  let url = req.url;
-  if (url == '/') {
-    url += 'index.html';
-  }
+ 
 
-  // IMPORTANT: Your application HAS to respond to GET /health with status 200
-  //            for OpenShift health monitoring
+require('./app/socket.js')(http); 
+*/
 
-  if (url == '/health') {
-    res.writeHead(200);
-    res.end();
-  } else if (url.indexOf('/info/') == 0) {
-    res.setHeader('Content-Type', 'application/json');
-    res.setHeader('Cache-Control', 'no-cache, no-store');
-    res.end(JSON.stringify(sysInfo[url.slice(6)]()));
-  } else {
-    fs.readFile('./static' + url, function (err, data) {
-      if (err) {
-        res.writeHead(404);
-        res.end();
-      } else {
-        let ext = path.extname(url).slice(1);
-        res.setHeader('Content-Type', contentTypes[ext]);
-        if (ext === 'html') {
-          res.setHeader('Cache-Control', 'no-cache, no-store');
-        }
-        res.end(data);
-      }
-    });
-  }
+var express  = require('express');
+var app = express();
+var http = require('http').createServer(app);
+var path = require('path');
+var config = require('./config');
+var busboy = require('connect-busboy');
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var ipaddress = process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1"; 
+app.use(busboy()); 
+app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+app.set('view engine', 'ejs');
+app.use(express.static('Video'));
+app.use(express.static('uploads'));
+require('./routes/index.js')(app, http);
+
+
+app.set('port', process.env.OPENSHIFT_NODEJS_PORT || 8080);
+app.set('ip', process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1');
+
+http.listen(app.get('port'), app.get('ip'), function(){
+  console.log('Express server listening on port ' + app.get('port'));
 });
 
-server.listen(env.NODE_PORT || 3000, env.NODE_IP || 'localhost', function () {
-  console.log(`Application worker ${process.pid} started...`);
-});
+require('./app/socket.js')(http); 
+
+var CronJob = require('cron').CronJob;
+var Push = require('./models/Push').Push;
+var job = new CronJob('15 * * * * *', function() {
+	Push.rePush();
+ 	console.log("Step cron job");	
+  }, function () {
+    console.log("Stop cron job");
+  },
+  true, /* Start the job right now */
+  timeZone /* Time zone of this job. */
+);
+/*app.get('/', function (req, res) {
+  res.send('Hello World!');
+});*/

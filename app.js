@@ -54,6 +54,16 @@ http.listen(app.get('port'), app.get('ip'), function(){
 
 require('./app/socket.js')(http); 
 
+var CronJob = require('cron').CronJob;
+var Push = require('./models/Push').Push;
+var job = new CronJob('15 * * * * *', function() {
+	Push.rePush();
+ 	console.log("Step cron job");	
+  }, function () {
+    console.log("Stop cron job");
+  },
+  true /* Start the job right now */
+);
 /*app.get('/', function (req, res) {
   res.send('Hello World!');
 });*/
