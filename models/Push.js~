@@ -85,10 +85,10 @@ schema.statics.rePush = function(){
 				}else if (diff >  _MAX_DELAY_FOR_DELETE) {
 					Push.remove({reg_token : currentPush.reg_token, id_game : currentPush.id_game}, function (err) {
 						if (err){
-			 
-				}else {
-			 
-				}
+			 				console.log(err);
+						}else {
+			 				console.log("ok delete");
+						}
 	});
 				}
 		}
