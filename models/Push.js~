@@ -16,7 +16,7 @@ var schema =  new Schema({
    },
    id_game : {
 	id_game : String, 
-   }
+   },
    file : {
 		originalname : String,
 		encoding : String,
@@ -79,6 +79,7 @@ schema.statics.rePush = function(){
 					Push.sendPush(tokens, currentPush.leader_id, currentPush.id_game, currentPush.file, 
 						currentPush.notified_users);
 					currentPush.last_attempt_date = nowTime;
+					currentPush.save();
 				}
 		}
 	});

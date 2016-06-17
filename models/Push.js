@@ -16,7 +16,7 @@ var schema =  new Schema({
    },
    id_game : {
 	id_game : String, 
-   }
+   },
    file : {
 		originalname : String,
 		encoding : String,
@@ -27,7 +27,7 @@ var schema =  new Schema({
    },
    notified_users : {
 	type : [String],	
-   } 
+   },
 });
 
 schema.statics.sendPush = function(tokens, vkID, gameId, file, allVks){
