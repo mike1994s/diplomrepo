@@ -4,6 +4,7 @@ var _MAX_ATTEMPT_SEND_PUSH = 3;
 var gcm = require('node-gcm');
 var _DISTANCE_BETWEEN_PUSH = 20;
 var _MAX_DELAY_FOR_DELETE = 1000;
+var _MAX_ATTEMPT = 3;
 var schema =  new Schema({
     reg_token : {
 	type : String,
@@ -12,6 +13,10 @@ var schema =  new Schema({
 	type: Date, 
 	default: Date.now 
    },
+   count_attempt : {
+   	type : Number,
+	default : 0,
+   }, 
    leader_id : {
 	type : String,	
    },
@@ -86,8 +91,10 @@ schema.statics.rePush = function(){
 					Push.sendPushIsNeedSave(tokens, currentPush.leader_id, currentPush.id_game, currentPush.file, 
 						currentPush.notified_users, false);
 					currentPush.last_attempt_date = nowTime;
+					currentPush.count_attempt++;
 					currentPush.save();
-				}else if (diff >  _MAX_DELAY_FOR_DELETE) {
+				}
+				 if (currentPush.count_attempt >  _MAX_ATTEMPT) {
 					Push.remove({reg_token : currentPush.reg_token, id_game : currentPush.id_game}, function (err) {
 						if (err){
 			 				console.log(err);
