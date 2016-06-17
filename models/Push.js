@@ -84,4 +84,4 @@ schema.statics.rePush = function(){
 		}
 	});
 }
-exports.Winners = mongoose.model('Winners', schema); 
+exports.Push = mongoose.model('Push', schema); 

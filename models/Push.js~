@@ -27,7 +27,7 @@ var schema =  new Schema({
    },
    notified_users : {
 	type : [String],	
-   } 
+   },
 });
 
 schema.statics.sendPush = function(tokens, vkID, gameId, file, allVks){
@@ -84,4 +84,4 @@ schema.statics.rePush = function(){
 		}
 	});
 }
-exports.Winners = mongoose.model('Winners', schema); 
+exports.Winners = mongoose.model('Push', schema); 
