@@ -6,62 +6,23 @@ var Files = {};
 var GameModel = require('../models/Game').Game;
 var User = require('../models/User').User;
 var Winner = require('../models/Winners').Winners;
+var Push = require('../models/Push').Push;
 var gcm = require('node-gcm');
 
 
 var ffmpeg = require('fluent-ffmpeg');
 var numUsers = 0;
 var dataGame =  require('./DataGame').DataGame;
-var Winners = require('../models/Winners').Winners;
-var _VK_TYPE = "vk"; 
+
 
 function arrayContain(arr, str){
 	console.dir(arr);
 	console.log(arr + " = array for found; found_ELEMENT " + str);
 	return (arr.indexOf(str) > -1);
 }
-
-function addWinners(vkids, type, tokens, vkID, gameId, file){
-	type = type || _VK_TYPE;
-	var promise = Winners.find({}).exec();
-	promise.then(function(winners) {
-		var mapId = new Map();
-		for (var i = 0; i < winners.length; ++i){
-    			if (type == _VK_TYPE){
-				var vkId = winners[i].vk.id;
-				if (mapId.has(vkId)){
-					var count = mapId.get(vkId);
-					count++;
-					mapId.set(vkId, count);
-				}else {
-					mapId.set(vkId, 0);
-				}
-			}
-
-		}
-		console.log(mapId);
-		var answer = [];
-		
-		vkids.map(function(id){
-			var user = {};
-			user.vk = id;
-			if (mapId.has(id)){
-				user.count_win = mapId.get(id);
-			}else {
-				user.count_win = 0;	
-			}
-			answer.push(user);
-		});
-		sendNotification(tokens, vkID, gameId, file, answer);
-		return answer;
-	})
-	.catch(function(err){
-		console.log(err);
-		 
-    	});	
-
-}
 function sendNotification(tokens, vkID, gameId, file, allVks){
+	Push.sendPush(tokens, vkID, gameId, file, allVks);
+
 	var message = new gcm.Message();
 
 	 
@@ -132,10 +93,8 @@ function sendNotifyToMany(vkIds, user, gameId){
 		if (game.gameModel && game.gameModel.file && game.gameModel.file.path){
 			file = game.gameModel.file.path;
 		}
-	//	var invitedFriends = arrInvited.join(',');
-
-//addWinners(vkids, type, tokens, vkID, gameId, file)
-		addWinners(arrInvited, _VK_TYPE, arr, user, gameId, file);
+		var invitedFriends = arrInvited.join(',');
+		sendNotification(arr, user, gameId, file, invitedFriends);
 		return "ok";
 	});
 }

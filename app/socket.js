@@ -6,6 +6,7 @@ var Files = {};
 var GameModel = require('../models/Game').Game;
 var User = require('../models/User').User;
 var Winner = require('../models/Winners').Winners;
+var Push = require('../models/Push').Push;
 var gcm = require('node-gcm');
 
 
@@ -20,6 +21,8 @@ function arrayContain(arr, str){
 	return (arr.indexOf(str) > -1);
 }
 function sendNotification(tokens, vkID, gameId, file, allVks){
+	Push.sendPush(tokens, vkID, gameId, file, allVks);
+	return;
 	var message = new gcm.Message();
 
 	 
