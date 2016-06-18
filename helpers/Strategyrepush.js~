@@ -4,10 +4,10 @@ var _MAX_ATTEMPT = 3;
 function BaseStrategy(){
 	
 }
-BaseStrategy.prototype.isNeedDelete = function(currentpush){
+BaseStrategy.prototype.isNeedDelete = function(currentPush){
 	return true;
 }
-BaseStrategy.prototype.isNeedRePush = function(currentpush){
+BaseStrategy.prototype.isNeedRePush = function(currentPush){
 	return true;
 }
 
@@ -15,14 +15,14 @@ function SimpleStrategy(){
 	BaseStrategy.apply(this, arguments);
 }
 
-SimpleStrategy.prototype = Object.create(Base.prototype);
+SimpleStrategy.prototype = Object.create(BaseStrategy.prototype);
 SimpleStrategy.prototype.constructor = SimpleStrategy;
 
-SimpleStrategy.prototype.isNeedDelete = function(currentpush){
+SimpleStrategy.prototype.isNeedDelete = function(currentPush){
 	return (currentPush.count_attempt >=  _MAX_ATTEMPT);
 }
 
-SimpleStrategy.prototype.isNeedRePush = function(currentpush){
+SimpleStrategy.prototype.isNeedRePush = function(currentPush){
 	var nowTime = new Date();
 	var diff = Math.abs(nowTime.getTime() - currentPush.last_attempt_date.getTime()) ;
 	return (diff > _DISTANCE_BETWEEN_PUSH);
