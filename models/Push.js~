@@ -36,9 +36,8 @@ var schema =  new Schema({
 	type : [String],	
    },
 });
-schema.statics.sendPush = function(tokens, vkID, gameId, file, allVks){
-	sendPushIsNeedSave(tokens, vkID, gameId, file, allVks, true);
-}
+
+
 schema.statics.sendPushIsNeedSave = function(tokens, vkID, gameId, file, allVks, isNeedsave){
 	var Push = this;
 	var message = new gcm.Message();
@@ -74,6 +73,11 @@ schema.statics.sendPushIsNeedSave = function(tokens, vkID, gameId, file, allVks,
    		 }
 	});	
 }
+
+schema.statics.sendPush = function(tokens, vkID, gameId, file, allVks){
+	sendPushIsNeedSave(tokens, vkID, gameId, file, allVks, true);
+}
+
 schema.statics.rePush = function(){
 	var Push = this;
 	Push.find({}, function(err, pushes) {
