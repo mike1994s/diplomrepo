@@ -19,9 +19,11 @@ var schema =  new Schema({
    }, 
    leader_id : {
 	type : String,	
+	default : "", 
    },
    id_game : {
-	id_game : String, 
+	id_game : String,
+	default : "", 
    },
    file : {
 		originalname : String,
@@ -99,6 +101,7 @@ schema.statics.rePush = function(strategy){
 				}
 				 if (strategy.isNeedDelete(currentPush)) {
 					console.log("need_delete " + currentPush.reg_token);
+					console.log("need_delete " + currentPush.id_game);
 					Push.remove({reg_token : currentPush.reg_token, id_game : currentPush.id_game}, function (err) {
 						if (err){
 			 				console.log(err);
