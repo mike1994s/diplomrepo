@@ -56,8 +56,11 @@ require('./app/socket.js')(http);
 
 var CronJob = require('cron').CronJob;
 var Push = require('./models/Push').Push;
+var BaseAlgoRePush = require('./helpers/Strategyrepush').BaseStrategy;
+var SimpleStrategy = require('./helpers/Strategyrepush').SimpleStrategy;
+
 var job = new CronJob('15 * * * * *', function() {
-	Push.rePush();
+	Push.rePush(new SimpleStrategy());
  	console.log("Step cron job");	
   }, function () {
     console.log("Stop cron job");

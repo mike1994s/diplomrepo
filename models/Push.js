@@ -3,8 +3,7 @@ var config = require('../config');
 var Schema = mongoose.Schema;
 var _MAX_ATTEMPT_SEND_PUSH = 3;
 var gcm = require('node-gcm');
-var _DISTANCE_BETWEEN_PUSH = 20;
-var _MAX_DELAY_FOR_DELETE = 1000;
+var _DISTANCE_BETWEEN_PUSH = 20; 
 var _MAX_ATTEMPT = 3;
 var schema =  new Schema({
     reg_token : {
@@ -79,18 +78,16 @@ schema.statics.sendPush = function(tokens, vkID, gameId, file, allVks){
 	this.sendPushIsNeedSave(tokens, vkID, gameId, file, allVks, true);
 }
 
-schema.statics.rePush = function(){
+schema.statics.rePush = function(strategy){
 	var Push = this;
 	Push.find({}, function(err, pushes) {
 		if (err){
 			console.log(err);	
 			return;	
 		}
-		for (var i = 0; i < pushes.length; ++i){
-				var nowTime = new Date();
+		for (var i = 0; i < pushes.length; ++i){ 
 				var currentPush = pushes[i];
-				var diff = Math.abs(nowTime.getTime() - currentPush.last_attempt_date.getTime()) ;
-				if (diff > _DISTANCE_BETWEEN_PUSH){
+				if (strategy.isNeedRePush(currentPush)){
 					var tokens = [];
 					tokens.push(currentPush.reg_token);
 
@@ -100,7 +97,7 @@ schema.statics.rePush = function(){
 					currentPush.count_attempt++;
 					currentPush.save();
 				}
-				 if (currentPush.count_attempt >=  _MAX_ATTEMPT) {
+				 if (strategy.isNeedDelete(currentPush)) {
 					Push.remove({reg_token : currentPush.reg_token, id_game : currentPush.id_game}, function (err) {
 						if (err){
 			 				console.log(err);
