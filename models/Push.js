@@ -98,6 +98,7 @@ schema.statics.rePush = function(strategy){
 					currentPush.save();
 				}
 				 if (strategy.isNeedDelete(currentPush)) {
+					console.log("need_delete " + currentPush.reg_token);
 					Push.remove({reg_token : currentPush.reg_token, id_game : currentPush.id_game}, function (err) {
 						if (err){
 			 				console.log(err);
