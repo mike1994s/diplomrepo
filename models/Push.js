@@ -93,7 +93,7 @@ schema.statics.rePush = function(strategy){
 
 					Push.sendPushIsNeedSave(tokens, currentPush.leader_id, currentPush.id_game, currentPush.file, 
 						currentPush.notified_users, false);
-					currentPush.last_attempt_date = nowTime;
+					currentPush.last_attempt_date =  new Date();
 					currentPush.count_attempt++;
 					currentPush.save();
 				}
