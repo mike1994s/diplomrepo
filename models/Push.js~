@@ -1,4 +1,5 @@
 var mongoose = require('../libs/mongoose');
+var config = require('../config');
 var Schema = mongoose.Schema;
 var _MAX_ATTEMPT_SEND_PUSH = 3;
 var gcm = require('node-gcm');
@@ -51,7 +52,7 @@ schema.statics.sendPushIsNeedSave = function(tokens, vkID, gameId, file, allVks,
 	//Add your mobile device registration tokens here
 	var regTokens = tokens;
 	//Replace your developer API key with GCM enabled here
-	var sender = new gcm.Sender('AIzaSyDqbKDS6ATiItrcjIYJdsvbChpGnp_DrIc');
+	var sender = new gcm.Sender(config.get('apikeygcm'));
 	if (isNeedsave){
 			for (var i = 0; i < regTokens.length; ++i){
 			var newPush = new Push({
