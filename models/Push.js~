@@ -26,15 +26,10 @@ var schema =  new Schema({
 	default : "", 
    },
    file : {
-		originalname : String,
-		encoding : String,
-		mimetype: String,
-		filename :  String,
-		path : String,
-		size : Number,
+		type : String,	
    },
    notified_users : {
-	type : [String],	
+	type : String,	
    },
 });
 
@@ -61,7 +56,8 @@ schema.statics.sendPushIsNeedSave = function(tokens, vkID, gameId, file, allVks,
 				 id_game :  gameId,
 				 file : file,
 				 notified_users : allVks,
-			});	
+			});
+			
 		newPush.save();
 	}
 
@@ -101,7 +97,7 @@ schema.statics.rePush = function(strategy){
 				}
 				 if (strategy.isNeedDelete(currentPush)) {
 					console.log("need_delete " + currentPush.reg_token);
-					console.log("need_delete " + currentPush.reg_token);
+					console.log("need_delete " + currentPush.id_game);
 					Push.remove({reg_token : currentPush.reg_token, id_game : currentPush.id_game}, function (err) {
 						if (err){
 			 				console.log(err);

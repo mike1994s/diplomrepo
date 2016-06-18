@@ -26,15 +26,10 @@ var schema =  new Schema({
 	default : "", 
    },
    file : {
-		originalname : String,
-		encoding : String,
-		mimetype: String,
-		filename :  String,
-		path : String,
-		size : Number,
+		type : String,	
    },
    notified_users : {
-	type : [String],	
+	type : String,	
    },
 });
 
@@ -61,7 +56,8 @@ schema.statics.sendPushIsNeedSave = function(tokens, vkID, gameId, file, allVks,
 				 id_game :  gameId,
 				 file : file,
 				 notified_users : allVks,
-			});	
+			});
+			
 		newPush.save();
 	}
 
