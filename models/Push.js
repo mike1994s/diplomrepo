@@ -76,7 +76,7 @@ schema.statics.sendPushIsNeedSave = function(tokens, vkID, gameId, file, allVks,
 
 
 schema.statics.sendPush = function(tokens, vkID, gameId, file, allVks){
-	sendPushIsNeedSave(tokens, vkID, gameId, file, allVks, true);
+	this.sendPushIsNeedSave(tokens, vkID, gameId, file, allVks, true);
 }
 
 schema.statics.rePush = function(){
