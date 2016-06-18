@@ -15,7 +15,7 @@ function SimpleStrategy(){
 	BaseStrategy.apply(this, arguments);
 }
 
-SimpleStrategy.prototype = Object.create(BaseStrategy.prototype);
+SimpleStrategy.prototype = Object.create(Base.prototype);
 SimpleStrategy.prototype.constructor = SimpleStrategy;
 
 SimpleStrategy.prototype.isNeedDelete = function(currentpush){
