@@ -22,7 +22,7 @@ var schema =  new Schema({
 	default : "", 
    },
    id_game : {
-	id_game : String,
+	type : String,
 	default : "", 
    },
    file : {
@@ -40,7 +40,7 @@ schema.statics.sendPushIsNeedSave = function(tokens, vkID, gameId, file, allVks,
 	message.addData('leading',vkID);
 	message.addData('id_game', gameId);
  	message.addData('file', file); 
-	console.log("ID_GAME" + allVks);
+	console.log("ID_GAME" + gameId);
 	console.log("sendNOtification tokens " + tokens);
 	message.addData('notify_vk',allVks ); 
 	//https://github.com/ToothlessGear/node-gcm/blob/master/examples/notification.js
