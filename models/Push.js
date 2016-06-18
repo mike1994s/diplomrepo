@@ -84,7 +84,7 @@ schema.statics.rePush = function(){
 				var nowTime = new Date();
 				var currentPush = pushes[i];
 				var diff = Math.abs(nowTime.getTime() - currentPush.last_attempt_date.getTime()) ;
-				if (diff > _DISTANCE_BETWEEN_PUSH && diff <  _MAX_DELAY_FOR_DELETE){
+				if (diff > _DISTANCE_BETWEEN_PUSH){
 					var tokens = [];
 					tokens.push(currentPush.reg_token);
 
