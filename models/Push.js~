@@ -22,7 +22,7 @@ var schema =  new Schema({
 	default : "", 
    },
    id_game : {
-	id_game : String,
+	type : String,
 	default : "", 
    },
    file : {

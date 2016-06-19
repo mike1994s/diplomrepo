@@ -23,28 +23,6 @@ function arrayContain(arr, str){
 function sendNotification(tokens, vkID, gameId, file, allVks){
 	Push.sendPush(tokens, vkID, gameId, file, allVks);
 	return;
-	var message = new gcm.Message();
-
-	 
-	message.addData('leading',vkID);
-	message.addData('id_game', gameId);
- 	message.addData('file', file); 
-	console.log("sendNOtification " + allVks);
-	console.log("sendNOtification tokens " + tokens);
-	message.addData('notify_vk',allVks ); 
-	//https://github.com/ToothlessGear/node-gcm/blob/master/examples/notification.js
-	//Add your mobile device registration tokens here
-	var regTokens =tokens;
-	//Replace your developer API key with GCM enabled here
-	var sender = new gcm.Sender('AIzaSyDqbKDS6ATiItrcjIYJdsvbChpGnp_DrIc');
-
-	sender.send(message, regTokens, function (err, response) {
-   		if(err) {
-      			console.error(err);
-   		 } else {
-      			console.log(response);
-   		 }
-	});
 }
 function sendNotify(vkId, user, gameId){
 	User.findOne({'vk.id':vkId}, function(err, userFound){
@@ -196,6 +174,7 @@ function sendNotifyToMany(vkIds, user, gameId){
 			}
 		}
 		return arr;
+	
 	}
 module.exports = function(http){
 	var io = socketIO.listen(http);

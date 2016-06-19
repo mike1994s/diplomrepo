@@ -1,6 +1,6 @@
 {
     "port": 3000,
-    "apikeygcm": "AIzaSyDqbKDS6ATiItrcjIYJdsvbChpGnp_DrIc",
+	"apikeygcm": "AIzaSyDqbKDS6ATiItrcjIYJdsvbChpGnp_DrIc",
     "mongoose": {
         "uri": "mongodb://admin:dkVHES9iVnD8@127.7.182.130:27017/nodejsdiplom",
         "options": {
