@@ -198,7 +198,11 @@ module.exports = function(http){
 			var game = getGameById(socket.room);
 			var fileGame = "";
 			var word = "";
-			var wasFinished = game.wasGameFinished();
+			var wasFinished = false;
+			if (game){
+				wasFinished = game.wasGameFinished();
+			}
+			
 			if (game && game.gameModel && game.gameModel.word && wasFinished){
 				word = game.gameModel.word;
 			}  

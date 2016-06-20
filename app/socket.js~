@@ -169,7 +169,7 @@ function sendNotifyToMany(vkIds, user, gameId){
 			}
 		}	
 		for (var i = 0; i < sockets.length; ++i){
-			if (vkOfRequest !=game.masterSocket.vk){
+			if (game &&  vkOfRequest !=game.masterSocket.vk){
 				arr.push(sockets[i].vk);
 			}
 		}
@@ -199,6 +199,10 @@ module.exports = function(http){
 			var fileGame = "";
 			var word = "";
 			var wasFinished = game.wasGameFinished();
+			if (game){
+				wasFinished = game.wasGameFinished();
+			}
+			
 			if (game && game.gameModel && game.gameModel.word && wasFinished){
 				word = game.gameModel.word;
 			}  
