@@ -199,11 +199,11 @@ module.exports = function(http){
 			var fileGame = "";
 			var word = "";
 			var wasFinished = game.wasGameFinished();
-			if (game.gameModel && game.gameModel.word && wasFinished){
+			if (game && game.gameModel && game.gameModel.word && wasFinished){
 				word = game.gameModel.word;
 			}  
 			
-			if (game.gameModel && game.gameModel.file && game.gameModel.file.path){
+			if (game && game.gameModel && game.gameModel.file && game.gameModel.file.path){
 				fileGame = game.gameModel.file.path;
 			}
 			
@@ -216,7 +216,7 @@ module.exports = function(http){
 			if (wasFinished){
 				return;			
 			}
-			if (game.wasStartGame()){
+			if (game && game.wasStartGame()){
 				var data = {};
 				data.file = game.gameModel.file.path;
 				data.message = "start game";
