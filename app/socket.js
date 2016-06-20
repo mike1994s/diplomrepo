@@ -163,13 +163,13 @@ function sendNotifyToMany(vkIds, user, gameId){
 		var game = getGameById(idRoom);
 		var sockets = game.sockets;
 		var arr = [];
-		if (game.masterSocket != null) {
+		if (game && game.masterSocket != null) {
 			if (vkOfRequest !=game.masterSocket.vk){
 				arr.push(game.masterSocket.vk);
 			}
 		}	
 		for (var i = 0; i < sockets.length; ++i){
-			if (vkOfRequest !=game.masterSocket.vk){
+			if (game &&  vkOfRequest !=game.masterSocket.vk){
 				arr.push(sockets[i].vk);
 			}
 		}

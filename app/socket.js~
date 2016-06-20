@@ -163,7 +163,7 @@ function sendNotifyToMany(vkIds, user, gameId){
 		var game = getGameById(idRoom);
 		var sockets = game.sockets;
 		var arr = [];
-		if (game.masterSocket != null) {
+		if (game && game.masterSocket != null) {
 			if (vkOfRequest !=game.masterSocket.vk){
 				arr.push(game.masterSocket.vk);
 			}
@@ -216,7 +216,7 @@ module.exports = function(http){
 			if (wasFinished){
 				return;			
 			}
-			if (game &&game.wasStartGame()){
+			if (game && game.wasStartGame()){
 				var data = {};
 				data.file = game.gameModel.file.path;
 				data.message = "start game";
