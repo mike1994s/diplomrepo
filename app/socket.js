@@ -176,6 +176,17 @@ function sendNotifyToMany(vkIds, user, gameId){
 		return arr;
 	
 	}
+	function removeByRoomId(idRoom){
+		var index = -1;
+		for (var i = 0; i < games.length; ++i){
+			if (games[i].idRoom == idRoom){
+				index = i;
+			}
+		}
+		if (index != -1){
+			games.splices(index, 1);		
+		}
+	}
 module.exports = function(http){
 	var io = socketIO.listen(http);
 	io.sockets.on('connection', function (socket) {
