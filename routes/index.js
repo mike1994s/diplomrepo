@@ -15,7 +15,7 @@ module.exports = function(app) {
     app.get('/test-gcm',require('./testgcm').get); 
 
     app.post('/enter', require('./enter').post);
-    app.post('/start-game', require('./startgame').post);
+    app.post('/create-game', require('./startgame').post);
     app.post('/update-fcm', require('./updatefcm').post);
     app.post('/update-friends', require('./updateFriends').post);
     app.get('/get-statistic/:type/:ids', require('./statistics').get);
