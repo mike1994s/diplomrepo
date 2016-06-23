@@ -12,12 +12,12 @@ module.exports = function(app) {
 
     });
 
-    app.get('/testgcm',require('./testgcm').get); 
+    app.get('/test-gcm',require('./testgcm').get); 
 
     app.post('/enter', require('./enter').post);
-    app.post('/startgame', require('./startgame').post);
-    app.post('/updatefcm', require('./updatefcm').post);
-    app.post('/updateFriends', require('./updateFriends').post);
-    app.get('/getStatistic/:type/:ids', require('./statistics').get);
-    app.post('/confirmpush', require('./confirmpush').post);
+    app.post('/start-game', require('./startgame').post);
+    app.post('/update-fcm', require('./updatefcm').post);
+    app.post('/update-friends', require('./updateFriends').post);
+    app.get('/get-statistic/:type/:ids', require('./statistics').get);
+    app.post('/confirm-push', require('./confirmpush').post);
 }
