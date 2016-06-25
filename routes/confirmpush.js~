@@ -4,7 +4,7 @@ exports.post = function(req, res) {
 	if (!req.body.regtoken || !req.body.idgame){
 		res.json({
 			code : "0",
-			answer :"Need field it is registrate Token and idGame",
+			answer :"Need field : FSM Token and idGame",
 			data : [],
 		});
 		return;

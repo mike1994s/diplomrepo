@@ -20,4 +20,5 @@ module.exports = function(app) {
     app.post('/update-friends', require('./updateFriends').post);
     app.get('/get-statistic/:type/:ids', require('./statistics').get);
     app.post('/confirm-push', require('./confirmpush').post);
+    app.post('/exit', require('./exit').post);
 }
