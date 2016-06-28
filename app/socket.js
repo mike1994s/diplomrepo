@@ -265,7 +265,7 @@ module.exports = function(http){
 			var data = {};
 			game.startGame();
 			data.file = "";
-			if (game.gameModel.file){
+			if (game.gameModel && game.gameModel.file){
 				data.file = game.gameModel.file.path || "" ;
 			}
 			
