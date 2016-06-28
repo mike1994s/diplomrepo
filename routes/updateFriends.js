@@ -68,7 +68,7 @@ promise.then(function(user) {
 						count++;
 						mapId.set(vkId, count);
 					}else {
-						mapId.set(vkId, 0);
+						mapId.set(vkId, 1);
 					}
 				}
 

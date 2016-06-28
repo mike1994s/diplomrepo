@@ -86,7 +86,7 @@ promise.then(function(user) {
 			}
 			answer.push(userTemp);
 		});
-			console.dir(answer);
+			console.dir("object" + answer);
 			res.json({
 			code : "1",
 			answer : "ok",
